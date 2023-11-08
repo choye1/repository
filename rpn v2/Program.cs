@@ -42,7 +42,7 @@ class Program
                     lastIsDigit = true;
                 }
 
-                else { parsingList.Add(num);  parsingList.Add(variable); lastIsDigit = false; }
+                else { parsingList.Add(num);  parsingList.Add(variable); lastIsDigit = false; num = ""; }
             } 
 
         }
