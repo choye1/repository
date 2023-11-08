@@ -11,30 +11,38 @@ class Program
         List<object> parsedInput = Parsing(userInput);
         List<object> outputList = Convertation(parsedInput);
         Console.Write("rpn: ");
-        foreach(object part in outputList) {Console.Write(part.ToString());}
+        foreach(object part in outputList) {Console.Write(part.ToString() + " ");}
         /*  int result = Calculate(outputString);
           Console.WriteLine("result:", result);*/
     }
 
     public static List<object> Parsing(string userInput) //Parsing expression.
     {
+        bool lastIsDigit = false;
         string num = "";
         List<object> parsingList = new List<object>();
         foreach (char variable in userInput)
         {
             if (variable != ' ') 
             {
-                if (char.IsDigit(variable)) 
+                if (char.IsDigit(variable))
                 {
+                    
                     if (num == "") num += variable;
                     else
                     {
-                        parsingList.Add(num);
-                        num = Convert.ToString(variable);
+                        if (lastIsDigit) { num += variable; }
+                        else 
+                        {
+                            parsingList.Add(num);
+                            num = Convert.ToString(variable);
+                        }
+
                     }
+                    lastIsDigit = true;
                 }
 
-                else parsingList.Add(variable);
+                else { parsingList.Add(num);  parsingList.Add(variable); lastIsDigit = false; }
             } 
 
         }
@@ -49,7 +57,7 @@ class Program
         {
             case '+' or '-':
                 return 1;
-            case "/" or "*":
+            case '/' or '*':
                 return 2;
             default:
                 return 0;
@@ -63,10 +71,10 @@ class Program
         foreach (object variable in parsedInput)
         {
             if (variable is string) output.Add(variable);
-            else if (variable == "(") stack.Push(variable);
-            else if (variable == ")" && stack.Count != 0)
+            else if (Convert.ToChar(variable) == '(') stack.Push(variable);
+            else if (Convert.ToChar(variable) == ')' && stack.Count != 0)
             {
-                while (stack.Count != 0 && stack.Peek() != "(")
+                while (stack.Count != 0 && Convert.ToChar(stack.Peek()) != '(')
                 {
                     output.Add(stack.Pop());
                 }
@@ -74,10 +82,10 @@ class Program
                 stack.Pop();
             }
 
-            else if (stack.Count == 0 || Preority(stack.Peek()) <= Preority(variable)) stack.Push(variable);
-            else
+            else if ((stack.Count == 0) || (Preority(stack.Peek()) <= Preority(variable))) stack.Push(variable);
+            else if (Preority(stack.Peek())> Preority(variable))
             {
-                while (stack.Count != 0 || stack.Peek() != "(") output.Add(stack.Pop());
+                while ((stack.Count != 0) || (Convert.ToChar(stack.Peek()) != '(')) output.Add(stack.Pop());
                 stack.Push(variable);
             }
             
