@@ -1,19 +1,23 @@
 using System;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Security.AccessControl;
+using System.Threading.Tasks.Dataflow;
 
 //RPN (Reverse Polish Notation)
 class Program
 {
     public static void Main() //input, transformation, calculate, output.
-    { 
+    {
         string userInput = Console.ReadLine();
         List<object> parsedInput = Parsing(userInput);
-        List<object> outputList = Convertation(parsedInput);
+        List<object> outputList = Conversion(parsedInput);
         Console.Write("rpn: ");
-        foreach(object part in outputList) {Console.Write(part.ToString() + " ");}
-        /*  int result = Calculate(outputString);
-          Console.WriteLine("result:", result);*/
+        foreach (object part in outputList)  Console.Write(part.ToString() + " "); 
+
+        List<object> result = Calculate(outputList);
+        Console.Write("result:");
+        foreach (object j in result) Console.Write(j.ToString());
     }
 
     public static List<object> Parsing(string userInput) //Parsing expression.
@@ -43,6 +47,7 @@ class Program
                 }
 
                 else { parsingList.Add(num);  parsingList.Add(variable); lastIsDigit = false; num = ""; }
+
             } 
 
         }
@@ -51,7 +56,7 @@ class Program
         return parsingList;
     }
 
-    public static int Preority(object operation) 
+    public static int Preority(object operation) //prioritizing operations
     {
         switch (operation) 
         {
@@ -62,9 +67,10 @@ class Program
             default:
                 return 0;
         }
+
     }
 
-    public static List<object> Convertation(List<object> parsedInput)
+    public static List<object> Conversion(List<object> parsedInput) //conversion to RPN
     {
         Stack<object> stack = new Stack<object>();
         List<object> output = new List<object>();
@@ -76,7 +82,8 @@ class Program
             {
                 while (stack.Count != 0 && Convert.ToChar(stack.Peek()) != '(')
                 {
-                    output.Add(stack.Pop());
+                    object item = stack.Pop();
+                    if (item != "") output.Add(item);
                 }
 
                 stack.Pop();
@@ -92,15 +99,66 @@ class Program
         }
         if (stack.Count > 0)
         {
-            while (stack.Count>0) output.Add(stack.Pop());
+            while (stack.Count > 0)
+            {
+                object item = stack.Pop();
+                if (item != "") output.Add(item); 
+            }
         }
 
         return output;
     }
 
-    public static int Calculate(string outputString)
+    public static double CalculateOneExpression(double firstNum, double secondNum, char operation) //calculate result of 1 expression
     {
-        return 4;
+        switch (operation)
+        {
+            case '+':
+                return firstNum + secondNum;
+            case '-':
+                return firstNum - secondNum;
+            case '*':
+                return firstNum * secondNum;
+            case '/':
+                return firstNum / secondNum;
+            default:
+                return 0;
+        }
+
+    }
+
+    public static bool IsOperation(object variable) 
+    {
+        switch (variable)
+        {
+            case '+' or '-' or '*' or '*': 
+                return true;
+            default:
+                return false;
+        }
+
+    }
+
+    public static List<object> Calculate(List<object> outputList) //calculate result of all expression
+    {
+
+        for (int i = 0; i < outputList.Count; i++)
+        {
+            if (outputList[i] is char)
+            {
+                double fisrtNumber = Convert.ToSingle(outputList[i - 2]);
+                double secondNumber = Convert.ToSingle(outputList[i - 1]);
+
+                double result = CalculateOneExpression(fisrtNumber, secondNumber, Convert.ToChar(outputList[i]));
+
+                outputList.RemoveRange(i - 2, 3);
+                outputList.Insert(i - 2, result);
+                i -= 2;
+            }
+            outputList.Remove("");
+        }
+
+         return outputList;
     }
 }
 
