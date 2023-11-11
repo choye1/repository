@@ -15,9 +15,9 @@ class Program
         Console.Write("rpn: ");
         foreach (object part in outputList)  Console.Write(part.ToString() + " "); 
 
-        List<object> result = Calculate(outputList);
+        string result = Calculate(outputList).ToString();
         Console.Write("result:");
-        foreach (object j in result) Console.Write(j.ToString());
+        Console.Write(result);
     }
 
     public static List<object> Parsing(string userInput) //Parsing expression.
@@ -30,12 +30,11 @@ class Program
             if (variable != ' ') 
             {
                 if (char.IsDigit(variable))
-                {
-                    
+                {  
                     if (num == "") num += variable;
                     else
                     {
-                        if (lastIsDigit) { num += variable; }
+                        if (lastIsDigit)  num += variable; 
                         else 
                         {
                             parsingList.Add(num);
@@ -83,7 +82,7 @@ class Program
                 while (stack.Count != 0 && Convert.ToChar(stack.Peek()) != '(')
                 {
                     object item = stack.Pop();
-                    if (item != "") output.Add(item);
+                    output.Add(item);
                 }
 
                 stack.Pop();
@@ -102,7 +101,7 @@ class Program
             while (stack.Count > 0)
             {
                 object item = stack.Pop();
-                if (item != "") output.Add(item); 
+                output.Add(item); 
             }
         }
 
@@ -127,21 +126,8 @@ class Program
 
     }
 
-    public static bool IsOperation(object variable) 
+    public static object Calculate(List<object> outputList) //calculate result of all expression
     {
-        switch (variable)
-        {
-            case '+' or '-' or '*' or '*': 
-                return true;
-            default:
-                return false;
-        }
-
-    }
-
-    public static List<object> Calculate(List<object> outputList) //calculate result of all expression
-    {
-
         for (int i = 0; i < outputList.Count; i++)
         {
             if (outputList[i] is char)
@@ -158,7 +144,7 @@ class Program
             outputList.Remove("");
         }
 
-         return outputList;
+         return outputList[0];
     }
 }
 
