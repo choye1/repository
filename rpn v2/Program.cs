@@ -3,179 +3,245 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Security.AccessControl;
 using System.Threading.Tasks.Dataflow;
+using System.Collections.Generic;
 
-//RPN (Reverse Polish Notation)
-class Program
+//RPN (Reverse Polish Notstion)
+namespace RPN
 {
-    public static void Main() //input, transformation, calculate, output.
-    {
-        string userInput = Console.ReadLine();
-        List<object> parsedInput = Parse(userInput);
-        List<object> outputList = Converse(parsedInput);
-        Console.Write("rpn: ");
-        foreach (object part in outputList) 
-        {
-            Console.Write(part.ToString() + " "); 
-        }
+    class Token { }
 
-        string result = Calculate(outputList).ToString();
-        Console.Write("result:");
-        Console.Write(result);
+    class Number : Token
+    {
+        public double number;
     }
 
-    public static List<object> Parse(string userInput) //Parsing expression.
+    class Operator : Token
     {
-        bool lastIsDigit = false;
-        string num = "";
-        List<object> parsingList = new List<object>();
-        foreach (char variable in userInput)
+        public char operation;
+    }
+
+    class Bracket : Token
+    {
+        public bool bracket;
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
         {
-            if (variable != ' ') 
+            Console.WriteLine("Введите математическое выражение: ");
+            string userInput = Console.ReadLine();
+            List<Token> ParsedUserInput = Parse(userInput);
+            List<Token> RPN = ConvertToRPN(ParsedUserInput);
+            double result = Calculate(RPN);
+            Console.Write("RPN: ");
+            Print(RPN);
+            Console.Write("result: " + result);
+        }
+
+        static List<Token> Parse(string userInput) //Parse userInput 
+        {
+            List<Token> result = new List<Token>();
+            string number = "";
+
+            foreach (char i in userInput)
             {
-                if (char.IsDigit(variable))
+                if (i != ' ')
                 {
-                    if (num == "")
+                    if (char.IsDigit(i))
                     {
-                        num += variable;
+                        number += i;
+                    }
+                    else
+                    {
+                        if (number != "")
+                        {
+                            Number num = new Number();
+                            num.number = Convert.ToDouble(number);
+                            result.Add(num);
+                        }
+                        if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/'))
+                        {
+                            Operator op = new Operator();
+                            op.operation = i;
+                            result.Add(op);
+                        }
+                        else if (i.Equals('('))
+                        {
+                            Bracket par = new Bracket();
+                            par.bracket = true;
+                            result.Add(par);
+                        }
+                        else
+                        {
+                            Bracket par = new Bracket();
+                            par.bracket = false;
+                            result.Add(par);
+                        }
+
+                        number = "";
+                    }
+                }
+            }
+            if (number != "")
+            {
+                Number num = new Number();
+                num.number = Convert.ToDouble(number);
+                result.Add(num);
+            }
+
+            return result;
+        }
+        static void Print(List<Token> ListToPrint) // Output
+        {
+            foreach (Token e in ListToPrint)
+            {
+                if (e is Number)
+                {
+                    Number num = (Number)e;
+                    Console.Write(num.number + " ");
+                }
+
+                else if (e is Operator)
+                {
+                    Operator op = (Operator)e;
+                    Console.Write(op.operation + " ");
+                }
+
+                else
+                {
+                    Bracket bracket = (Bracket)e;
+                    if (bracket.bracket)
+                    {
+                        Console.Write("( ");
                     }
 
                     else
                     {
-                        if (lastIsDigit)
-                        {
-                            num += variable;
-                        }
+                        Console.Write(") ");
+                    }
+                }
+            }
 
-                        else
-                        {
-                            parsingList.Add(num);
-                            num = Convert.ToString(variable);
-                        }
+            Console.Write("\n");
+        }
+
+        static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
+        {
+            Number result = new();
+            if (op.operation == '+')
+            {
+                result.number = first.number + second.number;
+            }
+
+            if (op.operation == '-')
+            {
+                result.number = first.number - second.number;
+            }
+
+            if (op.operation == '*')
+            {
+                result.number = first.number * second.number;
+            }
+
+            if (op.operation == '/')
+            {
+                result.number = first.number / second.number;
+            }
+
+            return result;
+        }
+
+        static int Preority(Token operation) //prioritizing operations
+        {
+            if (operation is Operator)
+            {
+                switch (((Operator)operation).operation)
+                {
+                    case '+' or '-':
+                        return 1;
+                    case '/' or '*':
+                        return 2;
+                    default:
+                        return 0;
+                }
+            }
+
+            else
+            {
+                return 0;
+            }
+        }
+
+        static List<Token> ConvertToRPN(List<Token> userInput) //Convert To RPN
+        {
+            Stack<Token> operators = new Stack<Token>();
+            List<Token> result = new List<Token>();
+            foreach (Token i in userInput)
+            {
+                if (i is Number)
+                {
+                    result.Add((Number)i);
+                }
+                else if (i is Operator)
+                {
+                    while (operators.Count > 0 && Preority(operators.Peek()) >= Preority(i))
+                    {
+                        result.Add(operators.Pop());
+                    }
+                    operators.Push((Operator)i);
+                }
+                else if (i is Bracket)
+                {
+                    if (((Bracket)i).bracket)
+                    {
+                        operators.Push((Bracket)i);
                     }
 
-                    lastIsDigit = true;
+                    else
+                    {
+                        while (operators.Count > 0 && !(operators.Peek() is Bracket))
+                        {
+                            result.Add(operators.Pop());
+                        }
+                        operators.Pop();
+                    }
                 }
-
-                else 
-                { 
-                    parsingList.Add(num); 
-                    parsingList.Add(variable); 
-                    lastIsDigit = false; num = ""; 
-                }
-            } 
-        }
-
-        if (num != "")
-        {
-            parsingList.Add(num);
-        }
-
-        return parsingList;
-    }
-
-    public static int Preority(object operation) //prioritizing operations
-    {
-        switch (operation) 
-        {
-            case '+' or '-':
-                return 1;
-            case '/' or '*':
-                return 2;
-            default:
-                return 0;
-        }
-    }
-
-    public static List<object> Converse(List<object> parsedInput) //conversion to RPN
-    {
-        Stack<object> stack = new Stack<object>();
-        List<object> output = new List<object>();
-        foreach (object variable in parsedInput)
-        {
-            if (variable is string)
-            {
-                output.Add(variable);
             }
 
-            else if (Convert.ToChar(variable) == '(')
+            while (operators.Count > 0)
             {
-                stack.Push(variable);
+                result.Add(operators.Pop());
             }
 
-            else if (Convert.ToChar(variable) == ')' && stack.Count != 0)
+            return result;
+        }
+
+        static double Calculate(List<Token> outputList) //calculate result of all expression
+        {
+            Stack<double> num = new();
+            foreach (Token i in outputList)
             {
-                while (stack.Count != 0 && Convert.ToChar(stack.Peek()) != '(')
+                if (i is Number number)
                 {
-                    object item = stack.Pop();
-                    output.Add(item);
+                    num.Push(number.number);
                 }
 
-                stack.Pop();
-            }
-
-            else if ((stack.Count == 0) || (Preority(stack.Peek()) <= Preority(variable)))
-            {
-                stack.Push(variable); 
-            }
-
-            else if (Preority(stack.Peek()) > Preority(variable))
-            {
-                while ((stack.Count != 0) || (Convert.ToChar(stack.Peek()) != '(')) output.Add(stack.Pop());
+                else if (i is Operator)
                 {
-                    stack.Push(variable);
+                    double first = num.Pop();
+                    double second = num.Pop();
+                    Number firstNum = new();
+                    firstNum.number = first;
+                    Number secondNum = new();
+                    secondNum.number = second;
+                    double result = (CalculateOneExpression(firstNum, secondNum, (Operator) i)).number;
+                    num.Push(result);
                 }
-            } 
-        }
-
-        if (stack.Count > 0)
-        {
-            while (stack.Count > 0)
-            {
-                object item = stack.Pop();
-                output.Add(item); 
-            }
-        }
-
-        return output;
-    }
-
-    public static double CalculateOneExpression(double firstNum, double secondNum, char operation) //calculate result of 1 expression
-    {
-        switch (operation)
-        {
-            case '+':
-                return firstNum + secondNum;
-            case '-':
-                return firstNum - secondNum;
-            case '*':
-                return firstNum * secondNum;
-            case '/':
-                return firstNum / secondNum;
-            default:
-                return 0;
-        }
-    }
-
-    public static object Calculate(List<object> outputList) //calculate result of all expression
-    {
-        for (int i = 0; i < outputList.Count; i++)
-        {
-            if (outputList[i] is char)
-            {
-                double fisrtNumber = Convert.ToSingle(outputList[i - 2]);
-                double secondNumber = Convert.ToSingle(outputList[i - 1]);
-
-                double result = CalculateOneExpression(fisrtNumber, secondNumber, Convert.ToChar(outputList[i]));
-
-                outputList.RemoveRange(i - 2, 3);
-                outputList.Insert(i - 2, result);
-                i -= 2;
             }
 
-            outputList.Remove("");
+            double resultNum = num.Pop();
+            return resultNum;
         }
-
-         return outputList[0];
     }
 }
-
