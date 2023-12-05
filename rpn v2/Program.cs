@@ -22,7 +22,7 @@ namespace RPN
 
     class Bracket : Token
     {
-        public bool bracket;
+        public bool isOpen;
     }
 
     internal class Program
@@ -56,7 +56,7 @@ namespace RPN
                     {
                         if (number != "")
                         {
-                            Number num = new Number();
+                            Number num = new();
                             num.number = Convert.ToDouble(number);
                             result.Add(num);
                         }
@@ -69,13 +69,13 @@ namespace RPN
                         else if (i.Equals('('))
                         {
                             Bracket par = new Bracket();
-                            par.bracket = true;
+                            par.isOpen = true;
                             result.Add(par);
                         }
                         else
                         {
                             Bracket par = new Bracket();
-                            par.bracket = false;
+                            par.isOpen = false;
                             result.Add(par);
                         }
 
@@ -94,24 +94,24 @@ namespace RPN
         }
         static void Print(List<Token> ListToPrint) // Output
         {
-            foreach (Token e in ListToPrint)
+            foreach (Token i in ListToPrint)
             {
-                if (e is Number)
+                if (i is Number)
                 {
-                    Number num = (Number)e;
+                    Number num = (Number)i;
                     Console.Write(num.number + " ");
                 }
 
-                else if (e is Operator)
+                else if (i is Operator)
                 {
-                    Operator op = (Operator)e;
+                    Operator op = (Operator)i;
                     Console.Write(op.operation + " ");
                 }
 
                 else
                 {
-                    Bracket bracket = (Bracket)e;
-                    if (bracket.bracket)
+                    Bracket bracket = (Bracket)i;
+                    if (bracket.isOpen)
                     {
                         Console.Write("( ");
                     }
@@ -193,7 +193,7 @@ namespace RPN
                 }
                 else if (i is Bracket)
                 {
-                    if (((Bracket)i).bracket)
+                    if (((Bracket)i).isOpen)
                     {
                         operators.Push((Bracket)i);
                     }
