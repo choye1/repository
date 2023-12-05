@@ -22,7 +22,7 @@ namespace RPN
 
     class Bracket : Token
     {
-        public bool bracket;
+        public bool isOpen;
     }
 
     internal class Program
@@ -56,7 +56,7 @@ namespace RPN
                     {
                         if (number != "")
                         {
-                            Number num = new Number();
+                            Number num = new();
                             num.number = Convert.ToDouble(number);
                             result.Add(num);
                         }
@@ -69,13 +69,13 @@ namespace RPN
                         else if (i.Equals('('))
                         {
                             Bracket par = new Bracket();
-                            par.bracket = true;
+                            par.isOpen = true;
                             result.Add(par);
                         }
                         else
                         {
                             Bracket par = new Bracket();
-                            par.bracket = false;
+                            par.isOpen = false;
                             result.Add(par);
                         }
 
@@ -111,7 +111,7 @@ namespace RPN
                 else
                 {
                     Bracket bracket = (Bracket)e;
-                    if (bracket.bracket)
+                    if (bracket.isOpen)
                     {
                         Console.Write("( ");
                     }
@@ -193,7 +193,7 @@ namespace RPN
                 }
                 else if (i is Bracket)
                 {
-                    if (((Bracket)i).bracket)
+                    if (((Bracket)i).isOpen)
                     {
                         operators.Push((Bracket)i);
                     }
