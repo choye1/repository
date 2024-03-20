@@ -26,9 +26,9 @@ namespace RPN
         public bool isOpen;
     }
 
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("¬ведите математическое выражение: ");
             string userInput = Console.ReadLine();
