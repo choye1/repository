@@ -6,28 +6,40 @@ using System.Threading.Tasks.Dataflow;
 using System.Collections.Generic;
 
 //RPN (Reverse Polish Notstion)
-namespace RPNLogic
+namespace RPN
 {
-    public class Token { }
+    class Token { }
 
-    public class Number : Token
+    class Number : Token
     {
         public double number;
     }
 
-    public class Operator : Token
+    class Operator : Token
     {
         public char operation;
     }
 
-    public class Bracket : Token
+    class Bracket : Token
     {
         public bool isOpen;
     }
 
-    public class Calculator
+    public class Program
     {
-        public static List<Token> Parse(string userInput) //Parse userInput 
+        public static void Main(string[] args, string auserInput)
+        {
+            Console.WriteLine("¬ведите математическое выражение: ");
+            string userInput = auserInput;
+            List<Token> ParsedUserInput = Parse(userInput);
+            List<Token> RPN = ConvertToRPN(ParsedUserInput);
+            double result = Calculate(RPN);
+            Console.Write("RPN: ");
+            Print(RPN);
+            Console.Write("result: " + result);
+        }
+
+        static List<Token> Parse(string userInput) //Parse userInput 
         {
             List<Token> result = new List<Token>();
             string number = "";
@@ -80,24 +92,20 @@ namespace RPNLogic
 
             return result;
         }
-        public static string Print(List<Token> ListToPrint) // Output
+        static void Print(List<Token> ListToPrint) // Output
         {
-            string output = "";
             foreach (Token e in ListToPrint)
             {
                 if (e is Number)
                 {
                     Number num = (Number)e;
                     Console.Write(num.number + " ");
-                    output += num.number + " ";
                 }
 
                 else if (e is Operator)
                 {
                     Operator op = (Operator)e;
                     Console.Write(op.operation + " ");
-                    output += op.operation + " ";
-
                 }
 
                 else
@@ -106,22 +114,19 @@ namespace RPNLogic
                     if (bracket.isOpen)
                     {
                         Console.Write("( ");
-                        output += "( ";
                     }
 
                     else
                     {
                         Console.Write(") ");
-                        output += ") ";
-
                     }
                 }
             }
 
-            return output;
+            Console.Write("\n");
         }
 
-        public static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
+        static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
         {
             Number result = new();
             if (op.operation == '+')
@@ -168,7 +173,7 @@ namespace RPNLogic
             }
         }
 
-        public static List<Token> ConvertToRPN(List<Token> userInput) //Convert To RPN
+        static List<Token> ConvertToRPN(List<Token> userInput) //Convert To RPN
         {
             Stack<Token> operators = new Stack<Token>();
             List<Token> result = new List<Token>();
@@ -212,7 +217,7 @@ namespace RPNLogic
             return result;
         }
 
-        public static double Calculate(List<Token> outputList) //calculate result of all expression
+        static double Calculate(List<Token> outputList) //calculate result of all expression
         {
             Stack<double> num = new();
             foreach (Token i in outputList)
@@ -230,7 +235,7 @@ namespace RPNLogic
                     firstNum.number = first;
                     Number secondNum = new();
                     secondNum.number = second;
-                    double result = (CalculateOneExpression(firstNum, secondNum, (Operator)i)).number;
+                    double result = (CalculateOneExpression(firstNum, secondNum, (Operator) i)).number;
                     num.Push(result);
                 }
             }
