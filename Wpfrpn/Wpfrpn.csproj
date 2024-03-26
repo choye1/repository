@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\rpn v2\rpn v2.csproj" />
+    <ProjectReference Include="..\RPNLogic\RPNLogic.csproj" />
   </ItemGroup>
 
 </Project>

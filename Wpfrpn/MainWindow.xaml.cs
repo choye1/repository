@@ -8,7 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using RPN;
+using RPNLogic;
+using rpn_v2;
 
 namespace Wpfrpn
 {
@@ -17,13 +18,17 @@ namespace Wpfrpn
         public MainWindow()
         {
             InitializeComponent();
-            new Program();
-            Program.Main([]) ;
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-           
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string input = inputTxtBx.Text;
+            Program.Start([], input);
         }
     }
 }

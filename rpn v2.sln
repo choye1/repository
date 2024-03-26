@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpn v2", "rpn v2\rpn v2.csproj", "{ABB8A944-EFF9-47C5-B733-1CAD3B3208E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpfrpn", "Wpfrpn\Wpfrpn.csproj", "{313F7B4B-4382-4A9B-9F0F-726C7BA10EAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpfrpn", "Wpfrpn\Wpfrpn.csproj", "{313F7B4B-4382-4A9B-9F0F-726C7BA10EAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPNLogic", "RPNLogic\RPNLogic.csproj", "{F6E1A711-635F-492B-90D6-2096914831FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{313F7B4B-4382-4A9B-9F0F-726C7BA10EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{313F7B4B-4382-4A9B-9F0F-726C7BA10EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{313F7B4B-4382-4A9B-9F0F-726C7BA10EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E1A711-635F-492B-90D6-2096914831FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E1A711-635F-492B-90D6-2096914831FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E1A711-635F-492B-90D6-2096914831FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E1A711-635F-492B-90D6-2096914831FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

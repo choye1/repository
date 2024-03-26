@@ -8,8 +8,9 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Margin="0,54,0,-54">
-            <TextBox TextWrapping="Wrap" Text="TextBox" Width="349" Height="77" TextChanged="TextBox_TextChanged"/>
+            <TextBox x:Name="inputTxtBx" TextWrapping="Wrap" Text="TextBox" Width="349" Height="77" TextChanged="TextBox_TextChanged"/>
         </Label>
+        <Button Content="Button" Click="Button_Click" Margin="10,160,620,217"/>
 
     </Grid>
 </Window>
