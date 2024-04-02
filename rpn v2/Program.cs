@@ -14,12 +14,22 @@ namespace rpn_v2
             
         }
 
-        public static void Start(string userInput)
+        public static List<Token> Logic(string userInput)
         {
             List<Token> ParsedUserInput = Calculator.Parse(userInput);
             List<Token> RPN = Calculator.ConvertToRPN(ParsedUserInput);
-            double result = Calculator.Calculate(RPN);
-            Calculator.Print(RPN);
+            return RPN;
         }
+
+        public static string GetResultString(List<Token> RPN) 
+        {
+            return Calculator.GetPrint(RPN); 
+        }
+
+        public static double GetResultDbl(List<Token> RPN)
+        {
+            return Calculator.Calculate(RPN);
+        }
+
     }
 }

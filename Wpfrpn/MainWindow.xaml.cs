@@ -28,8 +28,9 @@ namespace Wpfrpn
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string input = inputTxtBx.Text;
-            Program.Start(input);
-            outLbl.Content = Calculator.Print;
+            List < Token > a = Program.Logic(input);
+            outLbl. Content = Program.GetResultString(a);
+            rsltLbl.Content = Program.GetResultDbl(a);
         }
 
         
