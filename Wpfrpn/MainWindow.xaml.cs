@@ -28,11 +28,15 @@ namespace Wpfrpn
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string input = tbInput.Text;
+            double valueVar = Convert.ToDouble(tbValueVar.Text);
             List < Token > a = Program.Logic(input);
             lblOut. Content = Program.GetResultString(a);
-            lblRes.Content = Program.GetResultDouble(a);
+            lblRes.Content = Program.GetResultDouble(a, valueVar);
         }
 
-        
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -26,9 +26,9 @@ namespace rpn_v2
             return Calculator.GetPrint(RPN); 
         }
 
-        public static double GetResultDouble(List<Token> RPN)
+        public static double GetResultDouble(List<Token> RPN, double valueVar)
         {
-            return Calculator.Calculate(RPN);
+            return Calculator.Calculate(RPN, valueVar);
         }
 
     }

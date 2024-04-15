@@ -13,6 +13,7 @@ namespace RPNLogic
     public class Number : Token
     {
         public double number;
+        public double valueVar;
     }
 
     public class Letter : Token
@@ -236,34 +237,33 @@ namespace RPNLogic
             return result;
         }
 
-        public static double Calculate(List<Token> outputList) //calculate result of all expression
+        public static double Calculate(List<Token> outputList, double valueVar) //calculate result of all expression
         {
-            //    Stack<double> num = new();
-            //    foreach (Token i in outputList)
-            //    {
-            //        if (i is Number number)
-            //        {
-            //            num.Push(number.number);
-            //        }
-            //        else if (i is Letter)
-            //        {
+            Stack<double> num = new();
+            foreach (Token i in outputList)
+            {
+                if (i is Number number)
+                {
+                    num.Push(number.number);
+                }
+                else if (i is Letter)
+                {
+                    num.Push(valueVar);
+                }
+                else if (i is Operator)
+                {
+                    double scnd = num.Pop();
+                    double frst = num.Pop();
+                    Number scndNum = new();
+                    scndNum.number = scnd;
+                    Number frstNum = new();
+                    frstNum.number = frst;
+                    double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
+                    num.Push(result);
+                }
+            }
 
-            //        }
-            //        else if (i is Operator)
-            //        {
-            //            double scnd = num.Pop();
-            //            double frst = num.Pop();
-            //            Number scndNum = new();
-            //            scndNum.number = scnd;
-            //            Number frstNum = new();
-            //            frstNum.number = frst;
-            //            double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
-            //            num.Push(result);
-            //        }
-            //    }
-
-            //    double resultNum = num.Pop();
-            double resultNum = 9;
+            double resultNum = num.Pop();
             return resultNum;
         }
     }
