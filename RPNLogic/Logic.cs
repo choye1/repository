@@ -15,6 +15,11 @@ namespace RPNLogic
         public double number;
     }
 
+    public class Letter : Token
+    {
+        public char letter;
+    }
+
     public class Operator : Token
     {
         public char operation;
@@ -40,6 +45,14 @@ namespace RPNLogic
                     {
                         number += i;
                     }
+
+                    else if (char.IsLetter(i))
+                    {
+                        Letter letter = new Letter();
+                        letter.letter = i;
+                        result.Add(letter);
+                    }
+
                     else
                     {
                         if (number != "")
@@ -48,18 +61,21 @@ namespace RPNLogic
                             num.number = Convert.ToDouble(number);
                             result.Add(num);
                         }
+
                         if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/'))
                         {
                             Operator op = new Operator();
                             op.operation = i;
                             result.Add(op);
                         }
+                        
                         else if (i.Equals('('))
                         {
                             Bracket par = new Bracket();
                             par.isOpen = true;
                             result.Add(par);
                         }
+
                         else
                         {
                             Bracket par = new Bracket();
@@ -80,7 +96,7 @@ namespace RPNLogic
 
             return result;
         }
-        public static string Print(List<Token> ListToPrint) // Output
+        public static string GetPrint(List<Token> ListToPrint) // Output
         {
             string output = "";
             foreach (Token e in ListToPrint)
@@ -88,14 +104,18 @@ namespace RPNLogic
                 if (e is Number)
                 {
                     Number num = (Number)e;
-                    Console.Write(num.number + " ");
                     output += num.number + " ";
+                }
+                
+                else if(e is Letter)
+                {
+                    Letter letter = (Letter)e;
+                    output += letter.letter + " ";
                 }
 
                 else if (e is Operator)
                 {
                     Operator op = (Operator)e;
-                    Console.Write(op.operation + " ");
                     output += op.operation + " ";
 
                 }
@@ -105,13 +125,11 @@ namespace RPNLogic
                     Bracket bracket = (Bracket)e;
                     if (bracket.isOpen)
                     {
-                        Console.Write("( ");
                         output += "( ";
                     }
 
                     else
                     {
-                        Console.Write(") ");
                         output += ") ";
 
                     }
@@ -178,6 +196,12 @@ namespace RPNLogic
                 {
                     result.Add((Number)i);
                 }
+
+                else if (i is Letter)
+                {
+                    result.Add((Letter)i);
+                }
+
                 else if (i is Operator)
                 {
                     while (operators.Count > 0 && Preority(operators.Peek()) >= Preority(i))
@@ -214,28 +238,32 @@ namespace RPNLogic
 
         public static double Calculate(List<Token> outputList) //calculate result of all expression
         {
-            Stack<double> num = new();
-            foreach (Token i in outputList)
-            {
-                if (i is Number number)
-                {
-                    num.Push(number.number);
-                }
+            //    Stack<double> num = new();
+            //    foreach (Token i in outputList)
+            //    {
+            //        if (i is Number number)
+            //        {
+            //            num.Push(number.number);
+            //        }
+            //        else if (i is Letter)
+            //        {
 
-                else if (i is Operator)
-                {
-                    double first = num.Pop();
-                    double second = num.Pop();
-                    Number firstNum = new();
-                    firstNum.number = first;
-                    Number secondNum = new();
-                    secondNum.number = second;
-                    double result = (CalculateOneExpression(firstNum, secondNum, (Operator)i)).number;
-                    num.Push(result);
-                }
-            }
+            //        }
+            //        else if (i is Operator)
+            //        {
+            //            double scnd = num.Pop();
+            //            double frst = num.Pop();
+            //            Number scndNum = new();
+            //            scndNum.number = scnd;
+            //            Number frstNum = new();
+            //            frstNum.number = frst;
+            //            double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
+            //            num.Push(result);
+            //        }
+            //    }
 
-            double resultNum = num.Pop();
+            //    double resultNum = num.Pop();
+            double resultNum = 9;
             return resultNum;
         }
     }

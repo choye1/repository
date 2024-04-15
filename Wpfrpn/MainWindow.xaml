@@ -8,10 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Margin="0,54,0,-54">
-            <TextBox x:Name="inputTxtBx" TextWrapping="Wrap" Text="TextBox" Width="349" Height="77" TextChanged="TextBox_TextChanged"/>
+            <TextBox x:Name="tbInput" TextWrapping="Wrap" Text="" Width="349" Height="77" TextChanged="TextBox_TextChanged"/>
         </Label>
-        <Button Content="Button" Click="Button_Click" Margin="10,160,620,217"/>
-        <Label x:Name="outLbl" Content="Label" HorizontalAlignment="Left" Margin="153,26,0,0" VerticalAlignment="Top" Width="133"/>
+        <Button Content="Вычислить" Click="Button_Click" Margin="79,160,551,217"/>
+        <Label x:Name="lblOut" Content="
+               " HorizontalAlignment="Left" Margin="114,28,0,0" VerticalAlignment="Top" Width="239"/>
+        <Label Content="Result:" HorizontalAlignment="Left" Margin="57,28,0,0" VerticalAlignment="Top"/>
+        <Label Content="Вычисленное значение:" HorizontalAlignment="Left" Margin="26,227,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblRes" Content="                " HorizontalAlignment="Left" Margin="181,227,0,0" VerticalAlignment="Top" Width="239"/>
 
     </Grid>
 </Window>

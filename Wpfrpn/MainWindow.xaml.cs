@@ -27,10 +27,10 @@ namespace Wpfrpn
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string input = inputTxtBx.Text;
+            string input = tbInput.Text;
             List < Token > a = Program.Logic(input);
-            outLbl. Content = Program.GetResultString(a);
-            rsltLbl.Content = Program.GetResultDbl(a);
+            lblOut. Content = Program.GetResultString(a);
+            lblRes.Content = Program.GetResultDouble(a);
         }
 
         
