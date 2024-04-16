@@ -18,25 +18,18 @@ namespace Wpfrpn
         public MainWindow()
         {
             InitializeComponent();
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            double valueVar;
             string input = tbInput.Text;
-            double valueVar = Convert.ToDouble(tbValueVar.Text);
-            List < Token > a = Program.Logic(input);
-            lblOut. Content = Program.GetResultString(a);
-            lblRes.Content = Program.GetResultDouble(a, valueVar);
-        }
+            if (string.IsNullOrEmpty(tbValueVar.Text)) valueVar = 1;
+            else valueVar = Convert.ToDouble(tbValueVar.Text);
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
+            List <Token> rpnExpression = Program.Logic(input);
+            lblOutExpression.Content = Program.GetResultString(rpnExpression);
+            lblResultExpression.Content = Program.GetResultDouble(rpnExpression, valueVar);
         }
     }
 }

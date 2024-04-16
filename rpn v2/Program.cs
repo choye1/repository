@@ -11,7 +11,6 @@ namespace rpn_v2
     {
         public static void Main(string[] args) 
         {
-            
         }
 
         public static List<Token> Logic(string userInput)
@@ -30,6 +29,5 @@ namespace rpn_v2
         {
             return Calculator.Calculate(RPN, valueVar);
         }
-
     }
 }
