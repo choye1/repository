@@ -88,6 +88,7 @@ namespace RPNLogic
                     }
                 }
             }
+
             if (number != "")
             {
                 Number num = new Number();
@@ -97,6 +98,7 @@ namespace RPNLogic
 
             return result;
         }
+
         public static string GetPrint(List<Token> ListToPrint) // Output
         {
             string output = "";
@@ -209,8 +211,10 @@ namespace RPNLogic
                     {
                         result.Add(operators.Pop());
                     }
+
                     operators.Push((Operator)i);
                 }
+
                 else if (i is Bracket)
                 {
                     if (((Bracket)i).isOpen)
@@ -224,6 +228,7 @@ namespace RPNLogic
                         {
                             result.Add(operators.Pop());
                         }
+
                         operators.Pop();
                     }
                 }
@@ -246,10 +251,12 @@ namespace RPNLogic
                 {
                     num.Push(number.number);
                 }
+
                 else if (i is Letter)
                 {
                     num.Push(valueVar);
                 }
+
                 else if (i is Operator)
                 {
                     double scnd = num.Pop();

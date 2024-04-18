@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RPNLogic;
 using rpn_v2;
+using ScottPlot;
 
 namespace Wpfrpn
 {
@@ -17,26 +18,34 @@ namespace Wpfrpn
     {
         public MainWindow()
         {
+            Plot Graph = new();
+            double[] dataX = { 1, 2, 3, 4, 5 };
+            double[] dataY = { 1, 4, 9, 16, 25 };
+            Graph.Add.Scatter(dataX, dataY);
             InitializeComponent();
 
-        }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
+            Graph.SavePng("demo.png", 400, 300);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
+
+            double valueVar; ;
             string input = tbInput.Text;
-            double valueVar = Convert.ToDouble(tbValueVar.Text);
+            if (string.IsNullOrEmpty(tbValueVar.Text))
+            {
+                valueVar = 1;
+            }
+
+            else
+            {
+                valueVar = Convert.ToDouble(tbValueVar.Text);
+            }
             List < Token > a = Program.Logic(input);
             lblOut. Content = Program.GetResultString(a);
             lblRes.Content = Program.GetResultDouble(a, valueVar);
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

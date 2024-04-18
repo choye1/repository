@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ScottPlot.WPF" Version="5.0.26" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\rpn v2\rpn v2.csproj" />
     <ProjectReference Include="..\RPNLogic\RPNLogic.csproj" />
   </ItemGroup>
