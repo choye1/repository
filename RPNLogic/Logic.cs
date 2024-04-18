@@ -88,7 +88,6 @@ namespace RPNLogic
                     }
                 }
             }
-
             if (number != "")
             {
                 Number num = new Number();
@@ -210,7 +209,6 @@ namespace RPNLogic
                     {
                         result.Add(operators.Pop());
                     }
-
                     operators.Push((Operator)i);
                 }
                 else if (i is Bracket)
@@ -248,19 +246,19 @@ namespace RPNLogic
                 {
                     num.Push(number.number);
                 }
-
                 else if (i is Letter)
                 {
                     num.Push(valueVar);
                 }
-
                 else if (i is Operator)
                 {
-                    Number secondNum = new();
-                    Number firstNum = new();
-                    secondNum.number = num.Pop();
-                    firstNum.number = num.Pop();
-                    double result = (CalculateOneExpression(firstNum, secondNum, (Operator)i)).number;
+                    double scnd = num.Pop();
+                    double frst = num.Pop();
+                    Number scndNum = new();
+                    scndNum.number = scnd;
+                    Number frstNum = new();
+                    frstNum.number = frst;
+                    double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
                     num.Push(result);
                 }
             }
