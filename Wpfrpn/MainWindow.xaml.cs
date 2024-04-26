@@ -18,31 +18,35 @@ namespace Wpfrpn
     {
         public MainWindow()
         {
-            Plot Graph = new();
-            double[] dataX = { 1, 2, 3, 4, 5 };
-            double[] dataY = { 1, 4, 9, 16, 25 };
-            Graph.Add.Scatter(dataX, dataY);
             InitializeComponent();
 
-
-            Graph.SavePng("demo.png", 400, 300);
+            
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
-
+            List<double> dataX = new List<double> { 1, 2, 3, 4, 5 };
+            List<double> dataY = new List<double> { 1, 4, 9, 16, 25 };
+            Graph1.Plot.Add.Scatter(dataX, dataY);
+            Graph1.Refresh();
             double valueVar; ;
             string input = tbInput.Text;
             if (string.IsNullOrEmpty(tbValueVar.Text))
             {
                 valueVar = 1;
+                dataX.Add(6);
+                dataY.Add(30);
+                Graph1.Plot.ScaleFactor = 2; // Вот тут масштаб настраивается
+                Graph1.Refresh();
             }
 
             else
             {
                 valueVar = Convert.ToDouble(tbValueVar.Text);
             }
+
+            
             List < Token > a = Program.Logic(input);
             lblOut. Content = Program.GetResultString(a);
             lblRes.Content = Program.GetResultDouble(a, valueVar);

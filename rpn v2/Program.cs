@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RPNLogic;
+using ScottPlot;
 
 namespace rpn_v2
 {
@@ -11,7 +12,7 @@ namespace rpn_v2
     {
         public static void Main(string[] args) 
         {
-            
+
         }
 
         public static List<Token> Logic(string userInput)

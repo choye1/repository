@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ScottPlot:WpfPlot x:Name="Graph" Width="349" Height="349" Margin="393,28,58,57" />
+        <ScottPlot:WpfPlot x:Name="Graph1" Margin="358,41,65,81" />
         <Label Margin="0,54,0,-54">
             <TextBox x:Name="tbInput" TextWrapping="Wrap" Text="" Width="349" Height="19" />
         </Label>
