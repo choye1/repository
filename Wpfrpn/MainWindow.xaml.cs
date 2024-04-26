@@ -29,6 +29,7 @@ namespace Wpfrpn
             List<double> dataX = new List<double> { 1, 2, 3, 4, 5 };
             List<double> dataY = new List<double> { 1, 4, 9, 16, 25 };
             Graph1.Plot.Add.Scatter(dataX, dataY);
+            if (!string.IsNullOrEmpty(tbScale.Text)) { Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text); }// Вот тут масштаб настраивается
             Graph1.Refresh();
             double valueVar; ;
             string input = tbInput.Text;
@@ -37,7 +38,6 @@ namespace Wpfrpn
                 valueVar = 1;
                 dataX.Add(6);
                 dataY.Add(30);
-                Graph1.Plot.ScaleFactor = 2; // Вот тут масштаб настраивается
                 Graph1.Refresh();
             }
 
