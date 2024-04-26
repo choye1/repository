@@ -26,19 +26,18 @@ namespace Wpfrpn
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<double> dataX = new List<double> { 1, 2, 3, 4, 5 };
-            List<double> dataY = new List<double> { 1, 4, 9, 16, 25 };
-            Graph1.Plot.Add.Scatter(dataX, dataY);
-            if (!string.IsNullOrEmpty(tbScale.Text)) { Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text); }// Вот тут масштаб настраивается
+            if (!string.IsNullOrEmpty(tbScale.Text)) 
+            { 
+                Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text);  // Вот тут масштаб настраивается
+            } 
+
             Graph1.Refresh();
             double valueVar; ;
-            string input = tbInput.Text;
+            string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStartClc.Text};
+
             if (string.IsNullOrEmpty(tbValueVar.Text))
             {
                 valueVar = 1;
-                dataX.Add(6);
-                dataY.Add(30);
-                Graph1.Refresh();
             }
 
             else
@@ -46,10 +45,14 @@ namespace Wpfrpn
                 valueVar = Convert.ToDouble(tbValueVar.Text);
             }
 
+            List<double> dataX = new List<double> { };
+            List<double> dataY = new List<double> { };
             
-            List < Token > a = Program.Logic(input);
+            List < Token > a = Program.Logic(input, dataX, dataY);
             lblOut. Content = Program.GetResultString(a);
             lblRes.Content = Program.GetResultDouble(a, valueVar);
+            Graph1.Plot.Add.Scatter(dataX, dataY);
+            Graph1.Refresh();
         }
     }
 }
