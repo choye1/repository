@@ -12,7 +12,6 @@ namespace rpn_v2
     {
         public static void Main(string[] args) 
         {
-
         }
 
         public static List<Token> Logic(string[] input, List<double> dataX, List<double> dataY)
@@ -36,13 +35,16 @@ namespace rpn_v2
 
         public static void GetCoordinate(string[] input, List<double> dataX, List<double> dataY, List<Token> RPN) 
         {
-            int startClc = Convert.ToInt32(input[1]);
-            int endClc = Convert.ToInt32(input[2]);
-            int stepClc = Convert.ToInt32(input[3]);
-            for (int i = startClc; i <= endClc; i += stepClc)
+            double startClc = Convert.ToDouble(input[1]);
+            double endClc = Convert.ToDouble(input[2]);
+            double stepClc = Convert.ToDouble(input[3]);
+
+            double i = startClc;
+            while (i <= endClc)
             {
                 dataX.Add(i);
                 dataY.Add(GetResultDouble(RPN, i));
+                i += stepClc;
             }
         }
 

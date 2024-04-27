@@ -19,9 +19,6 @@ namespace Wpfrpn
         public MainWindow()
         {
             InitializeComponent();
-
-            
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -33,7 +30,7 @@ namespace Wpfrpn
 
             Graph1.Refresh();
             double valueVar; ;
-            string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStartClc.Text};
+            string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStepClc.Text};
 
             if (string.IsNullOrEmpty(tbValueVar.Text))
             {
@@ -46,12 +43,18 @@ namespace Wpfrpn
             }
 
             List<double> dataX = new List<double> { };
-            List<double> dataY = new List<double> { };
-            
+            List <double> dataY = new List<double> { };
+
             List < Token > a = Program.Logic(input, dataX, dataY);
             lblOut. Content = Program.GetResultString(a);
             lblRes.Content = Program.GetResultDouble(a, valueVar);
             Graph1.Plot.Add.Scatter(dataX, dataY);
+            Graph1.Refresh();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Graph1.Plot.Clear();
             Graph1.Refresh();
         }
     }

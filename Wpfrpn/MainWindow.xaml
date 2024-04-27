@@ -18,15 +18,16 @@
         <TextBox x:Name="tbValueVar" HorizontalAlignment="Left" Margin="182,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Значение переменной:" HorizontalAlignment="Left" Height="28" Margin="20,68,0,0" VerticalAlignment="Top" Width="157"/>
         <TextBox x:Name="tbScale" HorizontalAlignment="Left" Height="23" Margin="182,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
-        <Label Content="Масштаб графика:" HorizontalAlignment="Left" Height="31" Margin="20,116,0,0" VerticalAlignment="Top" Width="171"/>
+        <Label Content="Масштаб графика:" HorizontalAlignment="Left" Height="31" Margin="20,112,0,0" VerticalAlignment="Top" Width="171"/>
         <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="182,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Выражение:" HorizontalAlignment="Left" Height="28" Margin="20,20,0,0" VerticalAlignment="Top" Width="157"/>
-        <TextBox x:Name="tbStartClc" HorizontalAlignment="Left" Height="23" Margin="182,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
-        <Label Content="Начало вычислений :" HorizontalAlignment="Left" Height="33" Margin="20,165,0,0" VerticalAlignment="Top" Width="171"/>
-        <TextBox x:Name="tbEndClc" HorizontalAlignment="Left" Height="23" Margin="182,203,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
+        <TextBox x:Name="tbStartClc" HorizontalAlignment="Left" Height="23" Margin="182,160,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
+        <Label Content="Начало вычислений :" HorizontalAlignment="Left" Height="33" Margin="20,155,0,0" VerticalAlignment="Top" Width="171"/>
+        <TextBox x:Name="tbEndClc" HorizontalAlignment="Left" Height="23" Margin="182,197,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Конец вычислений :" HorizontalAlignment="Left" Height="29" Margin="20,0,0,0" VerticalAlignment="Center" Width="171"/>
         <TextBox x:Name="tbStepClc" HorizontalAlignment="Left" Height="23" Margin="182,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Шаг вычислений :" HorizontalAlignment="Left" Height="23" Margin="20,244,0,0" VerticalAlignment="Top" Width="171"/>
+        <Button Content="Clear Plot" HorizontalAlignment="Left" Height="28" Margin="679,368,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
 
     </Grid>
 </Window>
