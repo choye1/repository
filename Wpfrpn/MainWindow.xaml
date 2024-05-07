@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <ScottPlot:WpfPlot x:Name="Graph1" Margin="358,41,65,81" />
-        <Button Content="Вычислить" Click="Button_Click" Margin="302,358,328,19"/>
+        <Button Content="Вычислить" Click="BtStart" Margin="302,358,328,19"/>
         <Label x:Name="lblOut" Content="
                " HorizontalAlignment="Left" Margin="182,282,0,0" VerticalAlignment="Top" Width="171"/>
         <Label Content="RPN:" HorizontalAlignment="Left" Margin="78,282,0,0" VerticalAlignment="Top"/>
@@ -27,7 +27,7 @@
         <Label Content="Конец вычислений :" HorizontalAlignment="Left" Height="29" Margin="20,0,0,0" VerticalAlignment="Center" Width="171"/>
         <TextBox x:Name="tbStepClc" HorizontalAlignment="Left" Height="23" Margin="182,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Шаг вычислений :" HorizontalAlignment="Left" Height="23" Margin="20,244,0,0" VerticalAlignment="Top" Width="171"/>
-        <Button Content="Clear Plot" HorizontalAlignment="Left" Height="28" Margin="679,368,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
+        <Button Content="Clear Plot" HorizontalAlignment="Left" Height="28" Margin="679,368,0,0" VerticalAlignment="Top" Width="87" Click="BtnClearPlot"/>
 
     </Grid>
 </Window>

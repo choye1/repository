@@ -5,7 +5,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks.Dataflow;
 using System.Collections.Generic;
 
-//RPN (Reverse Polish Notstion)
+//RPN (Reverse Polish Notation)
 namespace RPNLogic
 {
     public class Token { }
@@ -25,6 +25,10 @@ namespace RPNLogic
     {
         public char operation;
     }
+    public class LetOperator:Token
+    {
+        public char[] letOp;
+    }
 
     public class Bracket : Token
     {
@@ -35,6 +39,7 @@ namespace RPNLogic
     {
         public static List<Token> Parse(string userInput) //Parse userInput 
         {
+            string order = "";
             List<Token> result = new List<Token>();
             string number = "";
 
@@ -42,16 +47,23 @@ namespace RPNLogic
             {
                 if (i != ' ')
                 {
+                    if (order.Length > 0) 
+                    {
+                    }
+
                     if (char.IsDigit(i))
                     {
-                        number += i;
+                        if (order.Length > 0)
+                        {
+                            order += i;
+                        }
+
+                        else { number += i; }
                     }
 
                     else if (char.IsLetter(i))
                     {
-                        Letter letter = new Letter();
-                        letter.letter = i;
-                        result.Add(letter);
+                        order += i;
                     }
 
                     else
@@ -65,23 +77,55 @@ namespace RPNLogic
 
                         if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/'))
                         {
+                            if (order.Length == 1)
+                            {
+                                Letter letter = new Letter();
+                                letter.letter = i;
+                                result.Add(letter);
+                            }
+
                             Operator op = new Operator();
                             op.operation = i;
                             result.Add(op);
                         }
                         
+                        else if (i.Equals(','))
+                        {
+                            order += i;
+                        }
+
                         else if (i.Equals('('))
                         {
-                            Bracket par = new Bracket();
-                            par.isOpen = true;
-                            result.Add(par);
+                            if (order.Length > 0)
+                            {
+                                order += i;
+                            }
+
+                            else
+                            {
+                                Bracket par = new Bracket();
+                                par.isOpen = true;
+                                result.Add(par);
+                            }
                         }
 
                         else
                         {
-                            Bracket par = new Bracket();
-                            par.isOpen = false;
-                            result.Add(par);
+                            if (order.Length > 0)
+                            {
+                                order += i;
+                                LetOperator letOp = new LetOperator();
+                                letOp.letOp = order.ToCharArray();
+                                result.Add(letOp);
+                                order = "";
+                            }
+
+                            else
+                            {
+                                Bracket par = new Bracket();
+                                par.isOpen = false;
+                                result.Add(par);
+                            }
                         }
 
                         number = "";
@@ -116,6 +160,18 @@ namespace RPNLogic
                     output += letter.letter + " ";
                 }
 
+                else if(e is LetOperator)
+                {
+                    string letOp = "";
+                    LetOperator letOperator = (LetOperator)e;
+                    foreach (char i in letOperator.letOp)
+                    {
+                        letOp += i;
+                    }
+                    
+                    output += letOp + " ";
+                }
+
                 else if (e is Operator)
                 {
                     Operator op = (Operator)e;
@@ -123,7 +179,7 @@ namespace RPNLogic
 
                 }
 
-                else
+                else if (e is Bracket)
                 {
                     Bracket bracket = (Bracket)e;
                     if (bracket.isOpen)
@@ -205,6 +261,11 @@ namespace RPNLogic
                     result.Add((Letter)i);
                 }
 
+                else if (i is LetOperator)
+                {
+                    result.Add((LetOperator)i);
+                }
+
                 else if (i is Operator)
                 {
                     while (operators.Count > 0 && Preority(operators.Peek()) >= Preority(i))
@@ -247,6 +308,7 @@ namespace RPNLogic
             Stack<double> num = new();
             foreach (Token i in outputList)
             {
+
                 if (i is Number number)
                 {
                     num.Push(number.number);
@@ -257,20 +319,27 @@ namespace RPNLogic
                     num.Push(valueVar);
                 }
 
+                else if (i is LetOperator)
+                {
+                    break;
+                }
+
                 else if (i is Operator)
                 {
-                    double scnd = num.Pop();
-                    double frst = num.Pop();
-                    Number scndNum = new();
-                    scndNum.number = scnd;
-                    Number frstNum = new();
-                    frstNum.number = frst;
-                    double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
-                    num.Push(result);
+
+                    //double scnd = num.Pop();
+                    //double frst = num.Pop();
+                    //Number scndNum = new();
+                    //scndNum.number = scnd;
+                    //Number frstNum = new();
+                    //frstNum.number = frst;
+                    //double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
+                    //num.Push(result);
                 }
             }
 
-            double resultNum = num.Pop();
+            double resultNum = 1;
+            if (num.Count != 0) { resultNum = num.Pop(); }
             return resultNum;
         }
     }

@@ -33,7 +33,7 @@ namespace rpn_v2
             return Calculator.Calculate(RPN, valueVar);
         }
 
-        public static void GetCoordinate(string[] input, List<double> dataX, List<double> dataY, List<Token> RPN) 
+        public static void GetCoordinate(string[] input, List<double> dataX, List<double> dataY, List<Token> RPN)
         {
             double startClc = Convert.ToDouble(input[1]);
             double endClc = Convert.ToDouble(input[2]);

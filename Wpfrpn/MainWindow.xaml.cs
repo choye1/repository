@@ -21,7 +21,7 @@ namespace Wpfrpn
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtStart(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(tbScale.Text)) 
             { 
@@ -29,8 +29,15 @@ namespace Wpfrpn
             } 
 
             Graph1.Refresh();
-            double valueVar; ;
+            double valueVar;
             string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStepClc.Text};
+            for (int i = 0; i < input.Length; i++) 
+            {
+                if (input[i] == "")
+                {
+                    input[i] = "1";
+                }
+            }
 
             if (string.IsNullOrEmpty(tbValueVar.Text))
             {
@@ -52,7 +59,7 @@ namespace Wpfrpn
             Graph1.Refresh();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void BtnClearPlot(object sender, RoutedEventArgs e)
         {
             Graph1.Plot.Clear();
             Graph1.Refresh();
