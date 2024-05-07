@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Security.AccessControl;
 using System.Threading.Tasks.Dataflow;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 //RPN (Reverse Polish Notation)
 namespace RPNLogic
@@ -47,7 +48,7 @@ namespace RPNLogic
             {
                 if (i != ' ')
                 {
-                    if (order.Length > 0) 
+                    if (order.Length > 0)
                     {
                     }
 
@@ -82,13 +83,14 @@ namespace RPNLogic
                                 Letter letter = new Letter();
                                 letter.letter = i;
                                 result.Add(letter);
+                                order = "";
                             }
 
                             Operator op = new Operator();
                             op.operation = i;
                             result.Add(op);
                         }
-                        
+
                         else if (i.Equals(','))
                         {
                             order += i;
@@ -131,6 +133,13 @@ namespace RPNLogic
                         number = "";
                     }
                 }
+            }
+
+            if (order != "")
+            {
+                Letter letter = new Letter();
+                letter.letter = Convert.ToChar(order);
+                result.Add(letter);
             }
 
             if (number != "")
