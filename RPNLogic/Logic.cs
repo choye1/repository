@@ -29,6 +29,9 @@ namespace RPNLogic
     public class LetOperator:Token
     {
         public char[] letOp;
+        public string name;
+        public int countOfValue;
+        public int[] values;
     }
 
     public class Bracket : Token
@@ -330,12 +333,11 @@ namespace RPNLogic
 
                 else if (i is LetOperator)
                 {
-                    break;
+                    ParseLetOp((LetOperator)i);
                 }
 
                 else if (i is Operator)
                 {
-
                     //double scnd = num.Pop();
                     //double frst = num.Pop();
                     //Number scndNum = new();
@@ -350,6 +352,46 @@ namespace RPNLogic
             double resultNum = 1;
             if (num.Count != 0) { resultNum = num.Pop(); }
             return resultNum;
+        }
+
+        public static void ParseLetOp(LetOperator letOp)
+        {
+
+            char[] oper = letOp.letOp;
+            string order = "";
+            List<int> values = new List<int>();
+            foreach (char c in oper) 
+            {
+                if (char.IsLetter(c))
+                {
+                    order += c;
+                }
+
+                else if (c == '(')
+                {
+                    letOp.name = order;
+                    order = "";
+                }
+
+                else if (char.IsDigit(c))
+                {
+                    order += c;
+                }
+
+                else if (c == ',')
+                {
+                    values.Add(Convert.ToInt32(order));
+                    order = "";
+                }
+
+                else if (c == ')')
+                {
+                    values.Add(Convert.ToInt32(order));
+                }
+            }
+
+            letOp.values = values.ToArray();
+            letOp.countOfValue = values.Count;
         }
     }
 }
