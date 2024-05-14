@@ -333,7 +333,8 @@ namespace RPNLogic
 
                 else if (i is LetOperator)
                 {
-                    ParseLetOp((LetOperator)i);
+                    ParseLetOp((LetOperator)i,valueVar);
+                    
                     num.Push(CalculateLetOp((LetOperator)i));
                 }
 
@@ -355,7 +356,7 @@ namespace RPNLogic
             return resultNum;
         }
 
-        public static void ParseLetOp(LetOperator letOp)
+        public static void ParseLetOp(LetOperator letOp, double valueVar)
         {
 
             char[] oper = letOp.letOp;
@@ -379,15 +380,20 @@ namespace RPNLogic
                     order += c;
                 }
 
-                else if (c == ',')
+                else if (c == ',' || c == ')')
                 {
-                    values.Add(Convert.ToInt32(order));
-                    order = "";
-                }
+                    bool isNumberic = int.TryParse(order,out _);
+                    if (isNumberic)
+                    {
+                        values.Add(Convert.ToInt32(order));
+                    }
 
-                else if (c == ')')
-                {
-                    values.Add(Convert.ToInt32(order));
+                    else
+                    {
+                        values.Add(Convert.ToInt32(valueVar));
+                    }
+
+                    order = "";
                 }
             }
 
