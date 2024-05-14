@@ -334,18 +334,19 @@ namespace RPNLogic
                 else if (i is LetOperator)
                 {
                     ParseLetOp((LetOperator)i);
+                    num.Push(CalculateLetOp((LetOperator)i));
                 }
 
                 else if (i is Operator)
                 {
-                    //double scnd = num.Pop();
-                    //double frst = num.Pop();
-                    //Number scndNum = new();
-                    //scndNum.number = scnd;
-                    //Number frstNum = new();
-                    //frstNum.number = frst;
-                    //double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
-                    //num.Push(result);
+                    double scnd = num.Pop();
+                    double frst = num.Pop();
+                    Number scndNum = new();
+                    scndNum.number = scnd;
+                    Number frstNum = new();
+                    frstNum.number = frst;
+                    double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
+                    num.Push(result);
                 }
             }
 
@@ -392,6 +393,38 @@ namespace RPNLogic
 
             letOp.values = values.ToArray();
             letOp.countOfValue = values.Count;
+        }
+
+        static double CalculateLetOp(LetOperator letOp)
+        {
+            int[] values = letOp.values;
+            switch (letOp.name) 
+            {
+                case ("log"):
+                    return Math.Log(values[1], values[0]);
+
+                case ("abs"):
+                    return Math.Abs(values[0]);
+
+                case ("sin"):
+                    return Math.Sin(values[0]);
+
+                case ("cos"):
+                    return Math.Abs(values[0]);
+
+                case ("ln"):
+                    return Math.Log(values[0]);
+
+                case ("lg"):
+                    return Math.Log10(values[0]);
+
+                case ("asin"):
+                    return Math.Asin(values[0]);
+
+                default: break;
+            }
+
+            return 0;
         }
     }
 }
