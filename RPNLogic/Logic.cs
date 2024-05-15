@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks.Dataflow;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 
 //RPN (Reverse Polish Notation)
 namespace RPNLogic
@@ -79,7 +80,7 @@ namespace RPNLogic
                             result.Add(num);
                         }
 
-                        if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/'))
+                        if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
                         {
                             if (order.Length == 1)
                             {
@@ -213,24 +214,27 @@ namespace RPNLogic
         public static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
         {
             Number result = new();
-            if (op.operation == '+')
+            switch (op.operation) 
             {
-                result.number = first.number + second.number;
-            }
+                case ('+'):
+                    result.number = first.number + second.number;
+                    break;
 
-            if (op.operation == '-')
-            {
-                result.number = first.number - second.number;
-            }
+                case ('-'):
+                    result.number = first.number - second.number;
+                    break;
 
-            if (op.operation == '*')
-            {
-                result.number = first.number * second.number;
-            }
+                case ('*'):
+                    result.number = first.number * second.number;
+                    break;
 
-            if (op.operation == '/')
-            {
-                result.number = first.number / second.number;
+                case ('/'):
+                    result.number = first.number / second.number;
+                    break;
+
+                case ('^'):
+                    result.number = Math.Pow(first.number, second.number);
+                    break;
             }
 
             return result;
@@ -244,7 +248,7 @@ namespace RPNLogic
                 {
                     case '+' or '-':
                         return 1;
-                    case '/' or '*':
+                    case '/' or '*' or '^':
                         return 2;
                     default:
                         return 0;
@@ -364,7 +368,7 @@ namespace RPNLogic
             List<int> values = new List<int>();
             foreach (char c in oper) 
             {
-                if (char.IsLetter(c))
+                if (char.IsLetter(c) || c.Equals("^"))
                 {
                     order += c;
                 }
@@ -426,6 +430,13 @@ namespace RPNLogic
 
                 case ("asin"):
                     return Math.Asin(values[0]);
+
+                case ("sqrt"):
+                    return Math.Sqrt(values[0]);
+
+                case("rt"):
+                    return Math.Pow(values[0], (1.0 / values[1]));
+
 
                 default: break;
             }
