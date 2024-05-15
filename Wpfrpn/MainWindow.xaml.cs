@@ -11,6 +11,8 @@ using System.Windows.Shapes;
 using RPNLogic;
 using rpn_v2;
 using ScottPlot;
+using ScottPlot.Plottables;
+using System.Windows.Controls.Primitives;
 
 namespace Wpfrpn
 {
@@ -62,6 +64,18 @@ namespace Wpfrpn
         private void BtnClearPlot(object sender, RoutedEventArgs e)
         {
             Graph1.Plot.Clear();
+            Graph1.Refresh();
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double visibleSpan = 100;
+            double fraction = (double)slider.Value / slider.Maximum;
+            double scrollableSpan = Graph1.Plot.Grid.XAxis.Width * Graph1.Plot.Grid.YAxis.Max- visibleSpan;
+            double xMin = fraction * scrollableSpan;
+            double xMax = xMin + visibleSpan;
+            Graph1.Plot.Style.  //xMin, xMax)
+                               ;
             Graph1.Refresh();
         }
     }

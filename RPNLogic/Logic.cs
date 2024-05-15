@@ -211,34 +211,7 @@ namespace RPNLogic
             return output;
         }
 
-        public static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
-        {
-            Number result = new();
-            switch (op.operation) 
-            {
-                case ('+'):
-                    result.number = first.number + second.number;
-                    break;
-
-                case ('-'):
-                    result.number = first.number - second.number;
-                    break;
-
-                case ('*'):
-                    result.number = first.number * second.number;
-                    break;
-
-                case ('/'):
-                    result.number = first.number / second.number;
-                    break;
-
-                case ('^'):
-                    result.number = Math.Pow(first.number, second.number);
-                    break;
-            }
-
-            return result;
-        }
+        
 
         static int Preority(Token operation) //prioritizing operations
         {
@@ -339,7 +312,7 @@ namespace RPNLogic
                 {
                     ParseLetOp((LetOperator)i,valueVar);
                     
-                    num.Push(CalculateLetOp((LetOperator)i));
+                    num.Push(CalculateExpression.CalculateLetOp((LetOperator)i));
                 }
 
                 else if (i is Operator)
@@ -350,7 +323,7 @@ namespace RPNLogic
                     scndNum.number = scnd;
                     Number frstNum = new();
                     frstNum.number = frst;
-                    double result = (CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
+                    double result = (CalculateExpression.CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
                     num.Push(result);
                 }
             }
@@ -405,43 +378,6 @@ namespace RPNLogic
             letOp.countOfValue = values.Count;
         }
 
-        static double CalculateLetOp(LetOperator letOp)
-        {
-            int[] values = letOp.values;
-            switch (letOp.name) 
-            {
-                case ("log"):
-                    return Math.Log(values[1], values[0]);
-
-                case ("abs"):
-                    return Math.Abs(values[0]);
-
-                case ("sin"):
-                    return Math.Sin(values[0]);
-
-                case ("cos"):
-                    return Math.Abs(values[0]);
-
-                case ("ln"):
-                    return Math.Log(values[0]);
-
-                case ("lg"):
-                    return Math.Log10(values[0]);
-
-                case ("asin"):
-                    return Math.Asin(values[0]);
-
-                case ("sqrt"):
-                    return Math.Sqrt(values[0]);
-
-                case("rt"):
-                    return Math.Pow(values[0], (1.0 / values[1]));
-
-
-                default: break;
-            }
-
-            return 0;
-        }
+        
     }
 }
