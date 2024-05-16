@@ -52,10 +52,6 @@ namespace RPNLogic
             {
                 if (i != ' ')
                 {
-                    if (order.Length > 0)
-                    {
-                    }
-
                     if (char.IsDigit(i))
                     {
                         if (order.Length > 0)
@@ -63,7 +59,10 @@ namespace RPNLogic
                             order += i;
                         }
 
-                        else { number += i; }
+                        else 
+                        {
+                            number += i; 
+                        }
                     }
 
                     else if (char.IsLetter(i))
@@ -73,6 +72,14 @@ namespace RPNLogic
 
                     else
                     {
+                        if (order.Length == 1)
+                        {
+                            Letter letter = new Letter();
+                            letter.letter = Convert.ToChar(order);
+                            result.Add(letter);
+                            order = "";
+                        } 
+
                         if (number != "")
                         {
                             Number num = new();
@@ -82,14 +89,6 @@ namespace RPNLogic
 
                         if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
                         {
-                            if (order.Length == 1)
-                            {
-                                Letter letter = new Letter();
-                                letter.letter = i;
-                                result.Add(letter);
-                                order = "";
-                            }
-
                             Operator op = new Operator();
                             op.operation = i;
                             result.Add(op);
@@ -210,8 +209,6 @@ namespace RPNLogic
 
             return output;
         }
-
-        
 
         static int Preority(Token operation) //prioritizing operations
         {
@@ -341,7 +338,7 @@ namespace RPNLogic
             List<int> values = new List<int>();
             foreach (char c in oper) 
             {
-                if (char.IsLetter(c) || c.Equals("^"))
+                if (char.IsLetter(c))
                 {
                     order += c;
                 }
@@ -377,7 +374,5 @@ namespace RPNLogic
             letOp.values = values.ToArray();
             letOp.countOfValue = values.Count;
         }
-
-        
     }
 }

@@ -8,16 +8,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ScottPlot:WpfPlot x:Name="Graph1" Margin="358,41,65,81" />
+        <ScottPlot:WpfPlot x:Name="Graph1" Margin="358,41,104,126" />
         <Button Content="Вычислить" Click="BtStart" Margin="302,358,328,19"/>
         <Label x:Name="lblOut" Content="
                " HorizontalAlignment="Left" Margin="182,282,0,0" VerticalAlignment="Top" Width="171"/>
         <Label Content="RPN:" HorizontalAlignment="Left" Margin="78,282,0,0" VerticalAlignment="Top"/>
-        <Label Content="Вычисленное значение:" HorizontalAlignment="Left" Margin="20,327,0,0" VerticalAlignment="Top" Width="152"/>
-        <Label x:Name="lblRes" Content="                " HorizontalAlignment="Left" Margin="182,327,0,0" VerticalAlignment="Top" Width="171"/>
+        <Label Content="Вычисленное значение:" HorizontalAlignment="Left" Margin="2,327,0,0" VerticalAlignment="Top" Width="152"/>
+        <Label x:Name="lblRes" Content="                " HorizontalAlignment="Left" Margin="164,327,0,0" VerticalAlignment="Top" Width="171"/>
         <TextBox x:Name="tbValueVar" HorizontalAlignment="Left" Margin="182,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Значение переменной:" HorizontalAlignment="Left" Height="28" Margin="20,68,0,0" VerticalAlignment="Top" Width="157"/>
-        <TextBox x:Name="tbScale" HorizontalAlignment="Left" Height="23" Margin="182,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
+        <TextBox x:Name="tbScale" HorizontalAlignment="Left" Height="23" Margin="182,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Масштаб графика:" HorizontalAlignment="Left" Height="31" Margin="20,112,0,0" VerticalAlignment="Top" Width="171"/>
         <TextBox x:Name="tbInput" HorizontalAlignment="Left" Margin="182,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Выражение:" HorizontalAlignment="Left" Height="28" Margin="20,20,0,0" VerticalAlignment="Top" Width="157"/>
@@ -28,6 +28,20 @@
         <TextBox x:Name="tbStepClc" HorizontalAlignment="Left" Height="23" Margin="182,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Шаг вычислений :" HorizontalAlignment="Left" Height="23" Margin="20,244,0,0" VerticalAlignment="Top" Width="171"/>
         <Button Content="Clear Plot" HorizontalAlignment="Left" Height="28" Margin="679,368,0,0" VerticalAlignment="Top" Width="87" Click="BtnClearPlot"/>
+        <Slider  Name ="sliderOX" Maximum="100" Minimum="-100" Value="-5" HorizontalAlignment="Left" Height="27" Margin="384,326,0,0" VerticalAlignment="Top" Width="338" ValueChanged="Slider_Ox"/>
+        <ScrollBar HorizontalAlignment="Left" Height="263" Margin="741,45,0,0" VerticalAlignment="Top" Width="25" x:Name ="sliderOY" Maximum="100" Minimum="-100" Value="-5" ValueChanged="Slider_Oy" RenderTransformOrigin="0.5,0.5" >
+            <ScrollBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180.115"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ScrollBar.RenderTransform>
+        </ScrollBar>
+        <TextBox Text="{Binding ElementName=sliderOX, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" HorizontalAlignment="Left" Height="27" Margin="345,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
+        <TextBox Text="{Binding ElementName=sliderOY, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="27" Margin="737,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
+        <Slider x:Name="slScale" Maximum="100" Minimum="-100" Value="1" HorizontalAlignment="Left" Height="23" Margin="182,116,0,0" VerticalAlignment="Top" Width="171" ValueChanged="SliderScale"/>
 
     </Grid>
 </Window>

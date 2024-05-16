@@ -55,6 +55,12 @@ namespace RPNLogic
                 case ("cos"):
                     return Math.Abs(values[0]);
 
+                case ("tg"):
+                    return Math.Tan(values[0]);
+
+                case ("ctg"):
+                    return 1.0/Math.Tan(values[0]);
+
                 case ("ln"):
                     return Math.Log(values[0]);
 
@@ -69,7 +75,6 @@ namespace RPNLogic
 
                 case ("rt"):
                     return Math.Pow(values[0], (1.0 / values[1]));
-
 
                 default: break;
             }

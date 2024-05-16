@@ -27,7 +27,7 @@ namespace Wpfrpn
         {
             if (!string.IsNullOrEmpty(tbScale.Text)) 
             { 
-                Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text);  // Вот тут масштаб настраивается
+          //      Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text);  // Вот тут масштаб настраивается
             } 
 
             Graph1.Refresh();
@@ -67,15 +67,32 @@ namespace Wpfrpn
             Graph1.Refresh();
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Slider_Ox(object sender, RoutedPropertyChangedEventArgs<double> e) 
         {
-            double visibleSpan = 100;
-            double fraction = (double)slider.Value / slider.Maximum;
-            double scrollableSpan = Graph1.Plot.Grid.XAxis.Width * Graph1.Plot.Grid.YAxis.Max- visibleSpan;
+            double visibleSpan = 20;
+            double fraction = (double)sliderOX.Value / sliderOX.Maximum;
+            double scrollableSpan = Graph1.Plot.Grid.XAxis.Width * Graph1.Plot.Grid.YAxis.Max - visibleSpan;
             double xMin = fraction * scrollableSpan;
             double xMax = xMin + visibleSpan;
-            Graph1.Plot.Style.  //xMin, xMax)
-                               ;
+            Graph1.Plot.Axes.SetLimitsX(xMin, xMax);
+            Graph1.Refresh();
+        }
+        private void Slider_Oy(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double visibleSpan = 20;
+            double fraction = (double)sliderOY.Value / sliderOY.Maximum;
+            double scrollableSpan = Graph1.Plot.Grid.YAxis.Height * Graph1.Plot.Grid.XAxis.Max - visibleSpan;
+            double yMin = fraction * scrollableSpan;
+            double yMax = yMin + visibleSpan;
+            Graph1.Plot.Axes.SetLimitsY(yMin, yMax);
+            Graph1.Refresh();
+        }
+
+        private void SliderScale(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // Graph1.Plot.ScaleFactor = Convert.ToDouble(slScale.Value);
+            Graph1.Plot.Axes.SetLimitsX(-slScale.Value, Convert.ToDouble(slScale.Value));
+            Graph1.Plot.Axes.SetLimitsY(-slScale.Value, Convert.ToDouble(slScale.Value));
             Graph1.Refresh();
         }
     }
