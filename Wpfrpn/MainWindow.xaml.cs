@@ -25,12 +25,6 @@ namespace Wpfrpn
 
         private void BtStart(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbScale.Text)) 
-            { 
-          //      Graph1.Plot.ScaleFactor = Convert.ToDouble(tbScale.Text);  // Вот тут масштаб настраивается
-            } 
-
-            Graph1.Refresh();
             double valueVar;
             string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStepClc.Text};
             for (int i = 0; i < input.Length; i++) 
@@ -90,9 +84,8 @@ namespace Wpfrpn
 
         private void SliderScale(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            // Graph1.Plot.ScaleFactor = Convert.ToDouble(slScale.Value);
-            Graph1.Plot.Axes.SetLimitsX(-slScale.Value, Convert.ToDouble(slScale.Value));
-            Graph1.Plot.Axes.SetLimitsY(-slScale.Value, Convert.ToDouble(slScale.Value));
+            Graph1.Plot.Axes.SetLimitsX(1, Convert.ToDouble(slScale.Value));
+            Graph1.Plot.Axes.SetLimitsY(1, Convert.ToDouble(slScale.Value));
             Graph1.Refresh();
         }
     }
