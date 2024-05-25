@@ -6,80 +6,86 @@ using System.Threading.Tasks;
 
 namespace RPNLogic
 {
-    class CalculateExpression
+    public abstract class Operator : Token 
     {
-        public static Number CalculateOneExpression(Number first, Number second, Operator op) //Calculate one expression
+        public abstract string Name { get; }
+        public abstract int Priority { get; }
+        public abstract int ArgsCount { get; }
+        public abstract bool IsFunction { get; }
+        public abstract double Execute(params Number[] number);
+        public override string ToString()
         {
-            Number result = new();
-            switch (op.operation)
-            {
-                case ('+'):
-                    result.number = first.number + second.number;
-                    break;
-
-                case ('-'):
-                    result.number = first.number - second.number;
-                    break;
-
-                case ('*'):
-                    result.number = first.number * second.number;
-                    break;
-
-                case ('/'):
-                    result.number = first.number / second.number;
-                    break;
-
-                case ('^'):
-                    result.number = Math.Pow(first.number, second.number);
-                    break;
-            }
-
-            return result;
-        }
-
-        public static double CalculateLetOp(LetOperator letOp)
-        {
-
-            int[] values = letOp.values;
-            switch (letOp.name)
-            {
-                case ("log"):
-                    return Math.Log(values[1], values[0]);
-
-                case ("abs"):
-                    return Math.Abs(values[0]);
-
-                case ("sin"):
-                    return Math.Sin(values[0]);
-
-                case ("cos"):
-                    return Math.Abs(values[0]);
-
-                case ("tg"):
-                    return Math.Tan(values[0]);
-
-                case ("ctg"):
-                    return 1.0/Math.Tan(values[0]);
-
-                case ("ln"):
-                    return Math.Log(values[0]);
-
-                case ("lg"):
-                    return Math.Log10(values[0]);
-
-                case ("asin"):
-                    return Math.Asin(values[0]);
-
-                case ("sqrt"):
-                    return Math.Sqrt(values[0]);
-
-                case ("rt"):
-                    return Math.Pow(values[0], (1.0 / values[1]));
-
-                default: break;
-            }
-
-            return 0;
+            return Name;
         }
     }
+
+    class Plus : Operator 
+    {
+        public override string Name => "+";
+        public override int Priority => 1;
+        public override int ArgsCount => 2;
+        public override bool IsFunction => false;
+        public override double Execute(params Number[] number)
+        {
+            double number1 = number[0].number;
+            double number2 = number[1].number;
+            return number1 + number2;
+        }
+    }
+
+    class Minus : Operator
+    {
+        public override string Name => "-";
+        public override int Priority => 1;
+        public override int ArgsCount => 2;
+        public override bool IsFunction => false;
+        public override double Execute(params Number[] number)
+        {
+            double number1 = number[0].number;
+            double number2 = number[1].number;
+            return number1 - number2;
+        }
+    }
+
+    class Multiply : Operator
+    {
+        public override string Name => "*";
+        public override int Priority => 2;
+        public override int ArgsCount => 2;
+        public override bool IsFunction => false;
+        public override double Execute(params Number[] number)
+        {
+            double number1 = number[0].number;
+            double number2 = number[1].number;
+            return number1 * number2;
+        }
+    }
+
+    class Devide : Operator
+    {
+        public override string Name => "/";
+        public override int Priority => 2;
+        public override int ArgsCount => 2;
+        public override bool IsFunction => false;
+        public override double Execute(params Number[] number)
+        {
+            double number1 = number[0].number;
+            double number2 = number[1].number;
+            return number1 / number2;
+        }
+    }
+
+    class Sin : Operator
+    {
+        public override string Name => "sin";
+        public override int Priority => 3;
+        public override int ArgsCount => 1;
+        public override bool IsFunction => true;
+        public override double Execute(params Number[] number)
+        {
+            double number1 = number[0].number;
+            return Math.Sin(number1);
+        }
+    }
+
 }

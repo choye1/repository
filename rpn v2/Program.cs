@@ -35,9 +35,9 @@ namespace rpn_v2
 
         public static void GetCoordinate(string[] input, List<double> dataX, List<double> dataY, List<Token> RPN)
         {
-            double startClc = Convert.ToDouble(input[1]);
-            double endClc = Convert.ToDouble(input[2]);
-            double stepClc = Convert.ToDouble(input[3]);
+            double startClc = Convert.ToDouble(input[1].Replace('.', ','));
+            double endClc = Convert.ToDouble(input[2].Replace('.', ','));
+            double stepClc = Convert.ToDouble(input[3].Replace('.',','));
 
             double i = startClc;
             while (i <= endClc)

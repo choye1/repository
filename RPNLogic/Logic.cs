@@ -23,11 +23,11 @@ namespace RPNLogic
         public char letter;
     }
 
-    public class Operator : Token
-    {
-        public char operation;
-    }
-    public class LetOperator:Token
+    //public class Operator : Token
+    //{
+    //    public char operation;
+    //}
+    public class LetOperator : Token
     {
         public char[] letOp;
         public string name;
@@ -42,8 +42,16 @@ namespace RPNLogic
 
     public class Calculator
     {
-        public static List<Token> Parse(string userInput) //Parse userInput 
+        
+        private static List<Operator> availableOperators = new List<Operator>()
         {
+            new Plus(), new Minus(), new Multiply(), new Devide(), new Sin()
+        };
+
+
+    public static List<Token> Parse(string userInput) //Parse userInput 
+        {
+            userInput = userInput.Replace('.', ',');
             string order = "";
             List<Token> result = new List<Token>();
             string number = "";
@@ -54,15 +62,7 @@ namespace RPNLogic
                 {
                     if (char.IsDigit(i))
                     {
-                        if (order.Length > 0)
-                        {
-                            order += i;
-                        }
-
-                        else 
-                        {
-                            number += i; 
-                        }
+                        number += i;
                     }
 
                     else if (char.IsLetter(i))
@@ -74,11 +74,12 @@ namespace RPNLogic
                     {
                         if (order.Length == 1)
                         {
+
                             Letter letter = new Letter();
                             letter.letter = Convert.ToChar(order);
                             result.Add(letter);
                             order = "";
-                        } 
+                        }
 
                         if (number != "")
                         {
@@ -89,29 +90,19 @@ namespace RPNLogic
 
                         if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
                         {
-                            Operator op = new Operator();
-                            op.operation = i;
-                            result.Add(op);
+                            result.Add(Create(i.ToString()));
                         }
 
                         else if (i.Equals(','))
                         {
-                            order += i;
+                            continue;
                         }
 
                         else if (i.Equals('('))
                         {
-                            if (order.Length > 0)
-                            {
-                                order += i;
-                            }
-
-                            else
-                            {
-                                Bracket par = new Bracket();
-                                par.isOpen = true;
-                                result.Add(par);
-                            }
+                            Bracket par = new Bracket();
+                            par.isOpen = true;
+                            result.Add(par);
                         }
 
                         else
@@ -119,9 +110,7 @@ namespace RPNLogic
                             if (order.Length > 0)
                             {
                                 order += i;
-                                LetOperator letOp = new LetOperator();
-                                letOp.letOp = order.ToCharArray();
-                                result.Add(letOp);
+                                result.Add(Create(order));
                                 order = "";
                             }
 
@@ -155,6 +144,19 @@ namespace RPNLogic
             return result;
         }
 
+        public static Token Create(string name) 
+        {
+            foreach(Operator op in availableOperators) 
+            {
+                if (op.Name == name) 
+                {
+                    return op;
+                }
+            }
+
+            return new Token(); //это по сути никогда не должно выполняться
+        }
+
         public static string GetPrint(List<Token> ListToPrint) // Output
         {
             string output = "";
@@ -165,14 +167,14 @@ namespace RPNLogic
                     Number num = (Number)e;
                     output += num.number + " ";
                 }
-                
-                else if(e is Letter)
+
+                else if (e is Letter)
                 {
                     Letter letter = (Letter)e;
                     output += letter.letter + " ";
                 }
 
-                else if(e is LetOperator)
+                else if (e is LetOperator)
                 {
                     string letOp = "";
                     LetOperator letOperator = (LetOperator)e;
@@ -180,14 +182,14 @@ namespace RPNLogic
                     {
                         letOp += i;
                     }
-                    
+
                     output += letOp + " ";
                 }
 
                 else if (e is Operator)
                 {
                     Operator op = (Operator)e;
-                    output += op.operation + " ";
+                    output += op.Name + " ";
 
                 }
 
@@ -210,27 +212,6 @@ namespace RPNLogic
             return output;
         }
 
-        static int Preority(Token operation) //prioritizing operations
-        {
-            if (operation is Operator)
-            {
-                switch (((Operator)operation).operation)
-                {
-                    case '+' or '-':
-                        return 1;
-                    case '/' or '*' or '^':
-                        return 2;
-                    default:
-                        return 0;
-                }
-            }
-
-            else
-            {
-                return 0;
-            }
-        }
-
         public static List<Token> ConvertToRPN(List<Token> userInput) //Convert To RPN
         {
             Stack<Token> operators = new Stack<Token>();
@@ -247,14 +228,9 @@ namespace RPNLogic
                     result.Add((Letter)i);
                 }
 
-                else if (i is LetOperator)
-                {
-                    result.Add((LetOperator)i);
-                }
-
                 else if (i is Operator)
                 {
-                    while (operators.Count > 0 && Preority(operators.Peek()) >= Preority(i))
+                    while (operators.Count > 0 && ((Operator)operators.Peek()).Priority >= ((Operator)i).Priority)
                     {
                         result.Add(operators.Pop());
                     }
@@ -294,7 +270,6 @@ namespace RPNLogic
             Stack<double> num = new();
             foreach (Token i in outputList)
             {
-
                 if (i is Number number)
                 {
                     num.Push(number.number);
@@ -305,23 +280,17 @@ namespace RPNLogic
                     num.Push(valueVar);
                 }
 
-                else if (i is LetOperator)
-                {
-                    ParseLetOp((LetOperator)i,valueVar);
-                    
-                    num.Push(CalculateExpression.CalculateLetOp((LetOperator)i));
-                }
-
                 else if (i is Operator)
                 {
-                    double scnd = num.Pop();
-                    double frst = num.Pop();
-                    Number scndNum = new();
-                    scndNum.number = scnd;
-                    Number frstNum = new();
-                    frstNum.number = frst;
-                    double result = (CalculateExpression.CalculateOneExpression(frstNum, scndNum, (Operator)i)).number;
-                    num.Push(result);
+                    List <Number> arg = new List<Number>();
+                    for(int j  = 0; j < ((Operator)i).ArgsCount; j++) 
+                    {
+                        Number number1 = new();
+                        number1.number = num.Pop();
+                        arg.Add(number1);
+                    }
+
+                    num.Push(((Operator)i).Execute(arg.ToArray()));
                 }
             }
 
@@ -336,7 +305,7 @@ namespace RPNLogic
             char[] oper = letOp.letOp;
             string order = "";
             List<int> values = new List<int>();
-            foreach (char c in oper) 
+            foreach (char c in oper)
             {
                 if (char.IsLetter(c))
                 {
@@ -356,7 +325,7 @@ namespace RPNLogic
 
                 else if (c == ',' || c == ')')
                 {
-                    bool isNumberic = int.TryParse(order,out _);
+                    bool isNumberic = int.TryParse(order, out _);
                     if (isNumberic)
                     {
                         values.Add(Convert.ToInt32(order));
