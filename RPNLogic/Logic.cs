@@ -14,8 +14,14 @@ namespace RPNLogic
 
     public class Number : Token
     {
-        public double number;
+        public double number { get; set; }
         public double valueVar;
+        public Number(double number) 
+        {
+            this.number = number;
+        }
+        public Number() { }
+
     }
 
     public class Letter : Token
@@ -37,8 +43,13 @@ namespace RPNLogic
 
     public class Bracket : Token
     {
-        public bool isOpen;
+        public bool isOpen { get; }
+        public Bracket(bool isOpen) 
+        {
+            this.isOpen = isOpen;
+        }
     }
+
 
     public class Calculator
     {
@@ -49,7 +60,7 @@ namespace RPNLogic
         };
 
 
-    public static List<Token> Parse(string userInput) //Parse userInput 
+        public static List<Token> Parse(string userInput) //Parse userInput 
         {
             userInput = userInput.Replace('.', ',');
             string order = "";
@@ -63,83 +74,133 @@ namespace RPNLogic
                     if (char.IsDigit(i))
                     {
                         number += i;
-                    }
-
-                    else if (char.IsLetter(i))
-                    {
-                        order += i;
-                    }
-
-                    else
-                    {
-                        if (order.Length == 1)
+                        if (order.Length > 0)
                         {
-
-                            Letter letter = new Letter();
-                            letter.letter = Convert.ToChar(order);
-                            result.Add(letter);
+                            result.Add(Create(order));
                             order = "";
                         }
-
+                    }
+                    else
+                    {
                         if (number != "")
                         {
-                            Number num = new();
-                            num.number = Convert.ToDouble(number);
-                            result.Add(num);
+                            result.Add(new Number(Convert.ToDouble(number)));
+                            number = "";
                         }
 
-                        if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
+                        if (i.Equals('(') || i.Equals(')'))
                         {
-                            result.Add(Create(i.ToString()));
-                        }
-
-                        else if (i.Equals(','))
-                        {
-                            continue;
-                        }
-
-                        else if (i.Equals('('))
-                        {
-                            Bracket par = new Bracket();
-                            par.isOpen = true;
-                            result.Add(par);
-                        }
-
-                        else
-                        {
+                            //result.Add(Create(i.ToString()));
                             if (order.Length > 0)
                             {
-                                order += i;
                                 result.Add(Create(order));
                                 order = "";
                             }
 
-                            else
-                            {
-                                Bracket par = new Bracket();
-                                par.isOpen = false;
-                                result.Add(par);
-                            }
                         }
 
-                        number = "";
+                        else
+                        {
+                            order += i;
+                        }
                     }
+
                 }
             }
 
             if (order != "")
             {
-                Letter letter = new Letter();
-                letter.letter = Convert.ToChar(order);
-                result.Add(letter);
+                result.Add(Create(order));
+                order = "";
             }
 
             if (number != "")
             {
-                Number num = new Number();
-                num.number = Convert.ToDouble(number);
-                result.Add(num);
+                result.Add(new Number(Convert.ToDouble(number)));
+                number = "";
             }
+
+
+                    //        else if (char.IsLetter(i))
+                    //        {
+                    //            order += i;
+                    //        }
+
+                    //        else
+                    //        {
+                    //            if (order.Length == 1)
+                    //            {
+
+                    //                Letter letter = new Letter();
+                    //                letter.letter = Convert.ToChar(order);
+                    //                result.Add(letter);
+                    //                order = "";
+                    //            }
+
+                    //            if (number != "")
+                    //            {
+                    //                Number num = new();
+                    //                num.number = Convert.ToDouble(number);
+                    //                result.Add(num);
+                    //            }
+
+                    //            if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
+                    //            {
+                    //                result.Add(Create(i.ToString()));
+                    //            }
+
+                    //            else if (i.Equals(','))
+                    //            {
+                    //                continue;
+                    //            }
+
+                    //            else if (i.Equals('('))
+                    //            {
+                    //                Bracket par = new Bracket();
+                    //                par.isOpen = true;
+                    //                result.Add(par);
+                    //            }
+                    //            else if (i.Equals(')'))
+                    //            {
+                    //                Bracket par = new Bracket();
+                    //                par.isOpen = false;
+                    //                result.Add(par);
+                    //            }
+
+                    //            else
+                    //            {
+                    //                if (order.Length > 0)
+                    //                {
+                    //                    order += i;
+                    //                    result.Add(Create(order));
+                    //                    order = "";
+                    //                }
+
+
+                    //            }
+
+                    //            number = "";
+                    //        }
+                    //    }
+                    //}
+
+                    //if (order != "")
+                    //{
+                    //    Letter letter = new Letter();
+                    //    letter.letter = Convert.ToChar(order);
+                    //    result.Add(letter);
+                    //}
+
+                    //if (number != "")
+                    //{
+                    //    Number num = new Number();
+                    //    num.number = Convert.ToDouble(number);
+                    //    result.Add(num);
+                    //}
+
+                    
+                
+            
 
             return result;
         }
@@ -154,7 +215,15 @@ namespace RPNLogic
                 }
             }
 
-            return new Token(); //это по сути никогда не должно выполняться
+            if (name == "(")
+            {
+                return new Bracket(true);
+            }
+            else
+            {
+                return new Bracket(false);
+            }
+            return new Token(); 
         }
 
         public static string GetPrint(List<Token> ListToPrint) // Output
