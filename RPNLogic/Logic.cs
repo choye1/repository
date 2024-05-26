@@ -33,13 +33,13 @@ namespace RPNLogic
     //{
     //    public char operation;
     //}
-    public class LetOperator : Token
-    {
-        public char[] letOp;
-        public string name;
-        public int countOfValue;
-        public int[] values;
-    }
+    //public class LetOperator : Token
+    //{
+    //    public char[] letOp;
+    //    public string name;
+    //    public int countOfValue;
+    //    public int[] values;
+    //}
 
     public class Bracket : Token
     {
@@ -90,7 +90,7 @@ namespace RPNLogic
 
                         if (i.Equals('(') || i.Equals(')'))
                         {
-                            //result.Add(Create(i.ToString()));
+                            result.Add(Create(i.ToString()));
                             if (order.Length > 0)
                             {
                                 result.Add(Create(order));
@@ -223,7 +223,6 @@ namespace RPNLogic
             {
                 return new Bracket(false);
             }
-            return new Token(); 
         }
 
         public static string GetPrint(List<Token> ListToPrint) // Output
@@ -243,17 +242,17 @@ namespace RPNLogic
                     output += letter.letter + " ";
                 }
 
-                else if (e is LetOperator)
-                {
-                    string letOp = "";
-                    LetOperator letOperator = (LetOperator)e;
-                    foreach (char i in letOperator.letOp)
-                    {
-                        letOp += i;
-                    }
+                //else if (e is LetOperator)
+                //{
+                //    string letOp = "";
+                //    LetOperator letOperator = (LetOperator)e;
+                //    foreach (char i in letOperator.letOp)
+                //    {
+                //        letOp += i;
+                //    }
 
-                    output += letOp + " ";
-                }
+                //    output += letOp + " ";
+                //}
 
                 else if (e is Operator)
                 {
@@ -264,8 +263,7 @@ namespace RPNLogic
 
                 else if (e is Bracket)
                 {
-                    Bracket bracket = (Bracket)e;
-                    if (bracket.isOpen)
+                    if (((Bracket)e).isOpen)
                     {
                         output += "( ";
                     }
@@ -299,7 +297,7 @@ namespace RPNLogic
 
                 else if (i is Operator)
                 {
-                    while (operators.Count > 0 && ((Operator)operators.Peek()).Priority >= ((Operator)i).Priority)
+                    while (operators.Count > 0 && (Priority(operators.Peek()) >= Priority(i)))
                     {
                         result.Add(operators.Pop());
                     }
@@ -332,6 +330,13 @@ namespace RPNLogic
             }
 
             return result;
+        }
+
+        public static int Priority(Token token) 
+        {
+            if (token is Operator) { return ((Operator)token).Priority; }
+            else if (token is Bracket) { return 0;  }
+            else { return 0; }
         }
 
         public static double Calculate(List<Token> outputList, double valueVar) //calculate result of all expression
@@ -368,49 +373,50 @@ namespace RPNLogic
             return resultNum;
         }
 
-        public static void ParseLetOp(LetOperator letOp, double valueVar)
-        {
+    //    public static void ParseLetOp(LetOperator letOp, double valueVar)
+    //    {
 
-            char[] oper = letOp.letOp;
-            string order = "";
-            List<int> values = new List<int>();
-            foreach (char c in oper)
-            {
-                if (char.IsLetter(c))
-                {
-                    order += c;
-                }
+    //        char[] oper = letOp.letOp;
+    //        string order = "";
+    //        List<int> values = new List<int>();
+    //        foreach (char c in oper)
+    //        {
+    //            if (char.IsLetter(c))
+    //            {
+    //                order += c;
+    //            }
 
-                else if (c == '(')
-                {
-                    letOp.name = order;
-                    order = "";
-                }
+    //            else if (c == '(')
+    //            {
+    //                letOp.name = order;
+    //                order = "";
+    //            }
 
-                else if (char.IsDigit(c))
-                {
-                    order += c;
-                }
+    //            else if (char.IsDigit(c))
+    //            {
+    //                order += c;
+    //            }
 
-                else if (c == ',' || c == ')')
-                {
-                    bool isNumberic = int.TryParse(order, out _);
-                    if (isNumberic)
-                    {
-                        values.Add(Convert.ToInt32(order));
-                    }
+    //            else if (c == ',' || c == ')')
+    //            {
+    //                bool isNumberic = int.TryParse(order, out _);
+    //                if (isNumberic)
+    //                {
+    //                    values.Add(Convert.ToInt32(order));
+    //                }
 
-                    else
-                    {
-                        values.Add(Convert.ToInt32(valueVar));
-                    }
+    //                else
+    //                {
+    //                    values.Add(Convert.ToInt32(valueVar));
+    //                }
 
-                    order = "";
-                }
-            }
+    //                order = "";
+    //            }
+    //        }
 
-            letOp.values = values.ToArray();
-            letOp.countOfValue = values.Count;
-        }
+    //        letOp.values = values.ToArray();
+    //        letOp.countOfValue = values.Count;
+    //    }
+    //
     }
 }
