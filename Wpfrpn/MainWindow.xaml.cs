@@ -61,6 +61,12 @@ namespace Wpfrpn
             Graph1.Refresh();
         }
 
+        private void SliderScale(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Graph1.Plot.Axes.SetLimitsX(1, Convert.ToDouble(slScale.Value));
+            Graph1.Plot.Axes.SetLimitsY(1, Convert.ToDouble(slScale.Value));
+            Graph1.Refresh();
+        }
         private void Slider_Ox(object sender, RoutedPropertyChangedEventArgs<double> e) 
         {
             double visibleSpan = 20;
@@ -82,11 +88,6 @@ namespace Wpfrpn
             Graph1.Refresh();
         }
 
-        private void SliderScale(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Graph1.Plot.Axes.SetLimitsX(1, Convert.ToDouble(slScale.Value));
-            Graph1.Plot.Axes.SetLimitsY(1, Convert.ToDouble(slScale.Value));
-            Graph1.Refresh();
-        }
+        
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks.Dataflow;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Xml.Linq;
 
 //RPN (Reverse Polish Notation)
 namespace RPNLogic
@@ -88,25 +89,30 @@ namespace RPNLogic
                             number = "";
                         }
 
-                        if (i.Equals('(') || i.Equals(')'))
+                        if (i.Equals('x'))
                         {
+                            result.Add(Create(order));
+                            result.Add(Create("x"));
+                            order = "";
+                        }
 
-
+                        else if (i.Equals('(') || i.Equals(')'))
+                        {
                             if (order.Length > 0)
                             {
                                 result.Add(Create(order));
                                 order = "";
                             }
-                            result.Add(Create(i.ToString()));
 
+                            result.Add(Create(i.ToString()));
                         }
 
                         else
                         {
                             order += i;
+                            
                         }
                     }
-
                 }
             }
 
@@ -127,6 +133,7 @@ namespace RPNLogic
 
         public static Token Create(string name) 
         {
+
             foreach(Operator op in availableOperators) 
             {
                 if (op.Name == name) 
@@ -143,9 +150,14 @@ namespace RPNLogic
             {
                 return new Bracket(false);
             }
-            else 
+
+            else if (name == "x")
             {
                 return new Letter(name);
+            }
+            else 
+            {
+                return new Token();
             }
         }
 
