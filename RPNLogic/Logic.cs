@@ -26,20 +26,12 @@ namespace RPNLogic
 
     public class Letter : Token
     {
-        public char letter;
+        public string letter;
+        public Letter(string let) 
+        {
+            letter = let;
+        }
     }
-
-    //public class Operator : Token
-    //{
-    //    public char operation;
-    //}
-    //public class LetOperator : Token
-    //{
-    //    public char[] letOp;
-    //    public string name;
-    //    public int countOfValue;
-    //    public int[] values;
-    //}
 
     public class Bracket : Token
     {
@@ -56,7 +48,8 @@ namespace RPNLogic
         
         private static List<Operator> availableOperators = new List<Operator>()
         {
-            new Plus(), new Minus(), new Multiply(), new Devide(), new Sin()
+            new Plus(), new Minus(), new Multiply(), new Devide(), new Sin(), new Cos(), new Log(), new Lg(), new Rt(), new Sqrt(), new Pow()
+
         };
 
 
@@ -82,6 +75,13 @@ namespace RPNLogic
                     }
                     else
                     {
+                        if (i.Equals(','))
+                        {
+                            result.Add(new Number(Convert.ToDouble(number)));
+                            number = "";
+                            continue;
+                        }
+
                         if (number != "")
                         {
                             result.Add(new Number(Convert.ToDouble(number)));
@@ -90,12 +90,14 @@ namespace RPNLogic
 
                         if (i.Equals('(') || i.Equals(')'))
                         {
-                            result.Add(Create(i.ToString()));
+
+
                             if (order.Length > 0)
                             {
                                 result.Add(Create(order));
                                 order = "";
                             }
+                            result.Add(Create(i.ToString()));
 
                         }
 
@@ -120,88 +122,6 @@ namespace RPNLogic
                 number = "";
             }
 
-
-                    //        else if (char.IsLetter(i))
-                    //        {
-                    //            order += i;
-                    //        }
-
-                    //        else
-                    //        {
-                    //            if (order.Length == 1)
-                    //            {
-
-                    //                Letter letter = new Letter();
-                    //                letter.letter = Convert.ToChar(order);
-                    //                result.Add(letter);
-                    //                order = "";
-                    //            }
-
-                    //            if (number != "")
-                    //            {
-                    //                Number num = new();
-                    //                num.number = Convert.ToDouble(number);
-                    //                result.Add(num);
-                    //            }
-
-                    //            if (i.Equals('-') || i.Equals('+') || i.Equals('*') || i.Equals('/') || i.Equals('^'))
-                    //            {
-                    //                result.Add(Create(i.ToString()));
-                    //            }
-
-                    //            else if (i.Equals(','))
-                    //            {
-                    //                continue;
-                    //            }
-
-                    //            else if (i.Equals('('))
-                    //            {
-                    //                Bracket par = new Bracket();
-                    //                par.isOpen = true;
-                    //                result.Add(par);
-                    //            }
-                    //            else if (i.Equals(')'))
-                    //            {
-                    //                Bracket par = new Bracket();
-                    //                par.isOpen = false;
-                    //                result.Add(par);
-                    //            }
-
-                    //            else
-                    //            {
-                    //                if (order.Length > 0)
-                    //                {
-                    //                    order += i;
-                    //                    result.Add(Create(order));
-                    //                    order = "";
-                    //                }
-
-
-                    //            }
-
-                    //            number = "";
-                    //        }
-                    //    }
-                    //}
-
-                    //if (order != "")
-                    //{
-                    //    Letter letter = new Letter();
-                    //    letter.letter = Convert.ToChar(order);
-                    //    result.Add(letter);
-                    //}
-
-                    //if (number != "")
-                    //{
-                    //    Number num = new Number();
-                    //    num.number = Convert.ToDouble(number);
-                    //    result.Add(num);
-                    //}
-
-                    
-                
-            
-
             return result;
         }
 
@@ -219,9 +139,13 @@ namespace RPNLogic
             {
                 return new Bracket(true);
             }
-            else
+            else if (name == ")")
             {
                 return new Bracket(false);
+            }
+            else 
+            {
+                return new Letter(name);
             }
         }
 
@@ -241,18 +165,6 @@ namespace RPNLogic
                     Letter letter = (Letter)e;
                     output += letter.letter + " ";
                 }
-
-                //else if (e is LetOperator)
-                //{
-                //    string letOp = "";
-                //    LetOperator letOperator = (LetOperator)e;
-                //    foreach (char i in letOperator.letOp)
-                //    {
-                //        letOp += i;
-                //    }
-
-                //    output += letOp + " ";
-                //}
 
                 else if (e is Operator)
                 {
@@ -282,27 +194,17 @@ namespace RPNLogic
         public static List<Token> ConvertToRPN(List<Token> userInput) //Convert To RPN
         {
             Stack<Token> operators = new Stack<Token>();
-            List<Token> result = new List<Token>();
+            List<Token> result = new();
             foreach (Token i in userInput)
             {
-                if (i is Number)
-                {
-                    result.Add((Number)i);
-                }
-
-                else if (i is Letter)
+                if (i is Letter)
                 {
                     result.Add((Letter)i);
                 }
 
-                else if (i is Operator)
+                else if (i is Number)
                 {
-                    while (operators.Count > 0 && (Priority(operators.Peek()) >= Priority(i)))
-                    {
-                        result.Add(operators.Pop());
-                    }
-
-                    operators.Push((Operator)i);
+                    result.Add((Number)i);
                 }
 
                 else if (i is Bracket)
@@ -321,6 +223,21 @@ namespace RPNLogic
 
                         operators.Pop();
                     }
+                }
+
+                else if (operators.Count > 0 && (operators.Peek() is Bracket))
+                {
+                    operators.Push(i);
+                }
+
+                else if (i is Operator)
+                {
+                    while (operators.Count > 0 && (Priority(operators.Peek()) >= Priority(i)))
+                    {
+                        result.Add(operators.Pop());
+                    }
+
+                    operators.Push((Operator)i);
                 }
             }
 
@@ -342,16 +259,12 @@ namespace RPNLogic
         public static double Calculate(List<Token> outputList, double valueVar) //calculate result of all expression
         {
             Stack<double> num = new();
-            foreach (Token i in outputList)
+            List<Token> calculateList = ReplaceLetter(outputList, valueVar);
+            foreach (Token i in calculateList)
             {
                 if (i is Number number)
                 {
                     num.Push(number.number);
-                }
-
-                else if (i is Letter)
-                {
-                    num.Push(valueVar);
                 }
 
                 else if (i is Operator)
@@ -373,50 +286,24 @@ namespace RPNLogic
             return resultNum;
         }
 
-    //    public static void ParseLetOp(LetOperator letOp, double valueVar)
-    //    {
+        public static List<Token> ReplaceLetter(List<Token> calculateList, double valuevar)
+        {
+            List<Token> result = new();
+            for (int i = 0; i < calculateList.Count; i++) 
+            {
+                if (calculateList[i] is Letter) 
+                {
+                    result.Add(new Number(valuevar));
+                }
+                else
+                {
+                    result.Add(calculateList[i]);
+                }
+            }
 
-    //        char[] oper = letOp.letOp;
-    //        string order = "";
-    //        List<int> values = new List<int>();
-    //        foreach (char c in oper)
-    //        {
-    //            if (char.IsLetter(c))
-    //            {
-    //                order += c;
-    //            }
+            return result;
+        }
 
-    //            else if (c == '(')
-    //            {
-    //                letOp.name = order;
-    //                order = "";
-    //            }
 
-    //            else if (char.IsDigit(c))
-    //            {
-    //                order += c;
-    //            }
-
-    //            else if (c == ',' || c == ')')
-    //            {
-    //                bool isNumberic = int.TryParse(order, out _);
-    //                if (isNumberic)
-    //                {
-    //                    values.Add(Convert.ToInt32(order));
-    //                }
-
-    //                else
-    //                {
-    //                    values.Add(Convert.ToInt32(valueVar));
-    //                }
-
-    //                order = "";
-    //            }
-    //        }
-
-    //        letOp.values = values.ToArray();
-    //        letOp.countOfValue = values.Count;
-    //    }
-    //
     }
 }

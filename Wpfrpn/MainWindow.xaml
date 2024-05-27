@@ -40,7 +40,7 @@
         </ScrollBar>
         <TextBox Text="{Binding ElementName=sliderOX, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" HorizontalAlignment="Left" Height="27" Margin="345,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
         <TextBox Text="{Binding ElementName=sliderOY, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="27" Margin="737,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
-        <Slider x:Name="slScale" Maximum="100" Minimum="0.001" SmallChange="0.01" Value="10" HorizontalAlignment="Left" Height="23" Margin="182,116,0,0" VerticalAlignment="Top" Width="171" ValueChanged="SliderScale"/>
+        <Slider x:Name="slScale" Maximum="100" Minimum="1.1" SmallChange="0.01" Value="10" HorizontalAlignment="Left" Height="23" Margin="182,116,0,0" VerticalAlignment="Top" Width="171" ValueChanged="SliderScale"/>
 
     </Grid>
 </Window>
