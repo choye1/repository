@@ -10,11 +10,11 @@
     <Grid>
         <ScottPlot:WpfPlot x:Name="Graph1" Margin="358,41,104,126" />
         <Button Content="Вычислить" Click="BtStart" Margin="302,358,328,19"/>
-        <Label x:Name="lblOut" Content="
+        <Label x:Name="lblOutRPN" Content="
                " HorizontalAlignment="Left" Margin="182,282,0,0" VerticalAlignment="Top" Width="171"/>
         <Label Content="RPN:" HorizontalAlignment="Left" Margin="78,282,0,0" VerticalAlignment="Top"/>
         <Label Content="Вычисленное значение:" HorizontalAlignment="Left" Margin="2,327,0,0" VerticalAlignment="Top" Width="152"/>
-        <Label x:Name="lblRes" Content="                " HorizontalAlignment="Left" Margin="164,327,0,0" VerticalAlignment="Top" Width="171"/>
+        <Label x:Name="lblOutRes" Content="                " HorizontalAlignment="Left" Margin="164,327,0,0" VerticalAlignment="Top" Width="171"/>
         <TextBox x:Name="tbValueVar" HorizontalAlignment="Left" Margin="182,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Значение переменной:" HorizontalAlignment="Left" Height="28" Margin="20,68,0,0" VerticalAlignment="Top" Width="157"/>
         <Label Content="Масштаб графика:" HorizontalAlignment="Left" Height="31" Margin="20,112,0,0" VerticalAlignment="Top" Width="171"/>

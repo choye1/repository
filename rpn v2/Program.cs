@@ -10,13 +10,10 @@ namespace rpn_v2
 {
     public class Program
     {
-        public static void Main(string[] args) 
-        {
-        }
+        public static void Main(string[] args) { }
 
         public static List<Token> Logic(string[] input, List<double> dataX, List<double> dataY)
         {
-
             List<Token> ParsedUserInput = Calculator.Parse(input[0]);
             List<Token> RPN = Calculator.ConvertToRPN(ParsedUserInput);
             GetCoordinate(input, dataX, dataY, RPN);
@@ -38,7 +35,6 @@ namespace rpn_v2
             double startClc = Convert.ToDouble(input[1].Replace('.', ','));
             double endClc = Convert.ToDouble(input[2].Replace('.', ','));
             double stepClc = Convert.ToDouble(input[3].Replace('.',','));
-
             double i = startClc;
             while (i <= endClc)
             {

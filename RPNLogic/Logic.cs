@@ -49,7 +49,8 @@ namespace RPNLogic
         
         private static List<Operator> availableOperators = new List<Operator>()
         {
-            new Plus(), new Minus(), new Multiply(), new Devide(), new Sin(), new Cos(), new Log(), new Lg(), new Rt(), new Sqrt(), new Pow()
+            new Plus(), new Minus(), new Multiply(), new Devide(), new Sin(), new Cos(), new Log(), 
+            new Lg(), new Rt(), new Sqrt(), new Pow()
 
         };
 
@@ -110,7 +111,6 @@ namespace RPNLogic
                         else
                         {
                             order += i;
-                            
                         }
                     }
                 }
@@ -133,7 +133,6 @@ namespace RPNLogic
 
         public static Token Create(string name) 
         {
-
             foreach(Operator op in availableOperators) 
             {
                 if (op.Name == name) 
@@ -150,7 +149,6 @@ namespace RPNLogic
             {
                 return new Bracket(false);
             }
-
             else if (name == "x")
             {
                 return new Letter(name);
@@ -191,7 +189,6 @@ namespace RPNLogic
                     {
                         output += "( ";
                     }
-
                     else
                     {
                         output += ") ";
@@ -315,7 +312,5 @@ namespace RPNLogic
 
             return result;
         }
-
-
     }
 }

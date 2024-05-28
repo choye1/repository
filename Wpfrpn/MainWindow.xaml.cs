@@ -26,7 +26,7 @@ namespace Wpfrpn
         private void BtStart(object sender, RoutedEventArgs e)
         {
             double valueVar;
-            string[] input = { tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStepClc.Text};
+            string[] input = {tbInput.Text, tbStartClc.Text, tbEndClc.Text, tbStepClc.Text};
             for (int i = 0; i < input.Length; i++) 
             {
                 if (input[i] == "")
@@ -48,9 +48,9 @@ namespace Wpfrpn
             List<double> dataX = new List<double> { };
             List <double> dataY = new List<double> { };
 
-            List < Token > a = Program.Logic(input, dataX, dataY);
-            lblOut. Content = Program.GetResultString(a);
-            lblRes.Content = Program.GetResultDouble(a, valueVar);
+            List < Token > RPN = Program.Logic(input, dataX, dataY);
+            lblOutRPN.Content = Program.GetResultString(RPN);
+            lblOutRes.Content = Program.GetResultDouble(RPN, valueVar);
             Graph1.Plot.Add.Scatter(dataX, dataY);
             Graph1.Refresh();
         }
@@ -87,7 +87,5 @@ namespace Wpfrpn
             Graph1.Plot.Axes.SetLimitsY(yMin, yMax);
             Graph1.Refresh();
         }
-
-        
     }
 }

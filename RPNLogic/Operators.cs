@@ -31,7 +31,6 @@ namespace RPNLogic
             double number2 = number[1].number;
             return number1 + number2;
         }
-
     }
 
     class Minus : Operator
