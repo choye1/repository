@@ -34,12 +34,10 @@ namespace Wpfrpn
                     input[i] = "1";
                 }
             }
-
             if (string.IsNullOrEmpty(tbValueVar.Text))
             {
                 valueVar = 1;
             }
-
             else
             {
                 valueVar = Convert.ToDouble(tbValueVar.Text);

@@ -24,7 +24,7 @@
         <Label Content="Начало вычислений :" HorizontalAlignment="Left" Height="33" Margin="20,155,0,0" VerticalAlignment="Top" Width="171"/>
         <TextBox x:Name="tbEndClc" HorizontalAlignment="Left" Height="23" Margin="182,197,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
         <Label Content="Конец вычислений :" HorizontalAlignment="Left" Height="29" Margin="20,0,0,0" VerticalAlignment="Center" Width="171"/>
-        <TextBox x:Name="tbStepClc" HorizontalAlignment="Left" Height="23" Margin="182,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
+        <TextBox x:Name="tbStepClc" HorizontalAlignment="Left" Height="23" Margin="182,244,0,0" TextWrapping="Wrap" Text="0.1" VerticalAlignment="Top" Width="171"/>
         <Label Content="Шаг вычислений :" HorizontalAlignment="Left" Height="23" Margin="20,244,0,0" VerticalAlignment="Top" Width="171"/>
         <Button Content="Clear Plot" HorizontalAlignment="Left" Height="28" Margin="679,368,0,0" VerticalAlignment="Top" Width="87" Click="BtnClearPlot"/>
         <Slider  Name ="sliderOX" Maximum="100" Minimum="-100" SmallChange="0.1" Value="-5" HorizontalAlignment="Left" Height="27" Margin="384,326,0,0" VerticalAlignment="Top" Width="338" ValueChanged="Slider_Ox"/>
